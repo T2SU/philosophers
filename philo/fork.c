@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/01 14:06:39 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 17:46:23 by smun             ###   ########.fr       */
+/*   Created: 2021/07/01 16:08:29 by smun              #+#    #+#             */
+/*   Updated: 2021/07/01 18:48:30 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
 
-void	ft_bzero(void *s, size_t n)
+t_bool	fork_try_take(t_fork *fork)
 {
-	unsigned char	*dest;
-	size_t			*dest_large;
-	size_t			i;
+	t_bool	success;
 
-	dest = (unsigned char *)s;
-	i = n % sizeof(size_t);
-	while (i--)
-		*(dest++) = 0;
-	dest_large = (size_t *)dest;
-	i = n / sizeof(size_t);
-	while (i--)
-		*(dest_large++) = 0;
+	pthread_mutex_lock(&fork->mutex);
+	if (fork->state == kNotUsing)
+	{
+		fork->state = kUsing;
+		success = TRUE;
+	}
+	else
+		success = FALSE;
+	pthread_mutex_unlock(&fork->mutex);
+	return (success);
+}
+
+void	fork_put_down(t_fork *fork)
+{
+	pthread_mutex_lock(&fork->mutex);
+	fork->state = kNotUsing;
+	pthread_mutex_unlock(&fork->mutex);
 }

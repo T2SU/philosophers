@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/01 14:06:39 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 17:46:23 by smun             ###   ########.fr       */
+/*   Created: 2021/07/01 16:57:15 by smun              #+#    #+#             */
+/*   Updated: 2021/07/01 18:29:52 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <sys/time.h>
 
-void	ft_bzero(void *s, size_t n)
+suseconds_t	time_get(void)
 {
-	unsigned char	*dest;
-	size_t			*dest_large;
-	size_t			i;
+	struct timeval	t;
 
-	dest = (unsigned char *)s;
-	i = n % sizeof(size_t);
-	while (i--)
-		*(dest++) = 0;
-	dest_large = (size_t *)dest;
-	i = n / sizeof(size_t);
-	while (i--)
-		*(dest_large++) = 0;
+	gettimeofday(&t, NULL);
+	return (t.tv_usec * 1000);
 }
