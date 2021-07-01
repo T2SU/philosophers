@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 14:48:30 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 19:51:51 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 20:03:32 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	set_pickable_forks(int numbers, t_philo *philo, t_fork *forks)
 	}
 }
 
-static t_bool	philo_init(int unique_id, t_philo *philo, t_info info)
+static void	philo_init(int unique_id, t_philo *philo, t_info info)
 {
 	ft_bzero(philo, sizeof(t_philo));
 	philo->state = kThinking;
@@ -64,15 +64,14 @@ t_bool	table_init(t_info info, t_fork **forks, t_philo **philos)
 	*forks = malloc(sizeof(t_fork) * info.numbers);
 	if (*philos == NULL || *forks == NULL)
 		return (FALSE);
-	if (!philo_change_state(NULL, 0))
+	if (!philo_change_state(NULL, 0, 0))
 		return (FALSE);
 	i = 0;
 	while (i < info.numbers)
 	{
 		if (!fork_init(i + 1, &(*forks)[i]))
 			return (FALSE);
-		if (!philo_init(i + 1, &(*philos)[i], info))
-			return (FALSE);
+		philo_init(i + 1, &(*philos)[i], info);
 		i++;
 	}
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 19:43:09 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 20:02:59 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void		fork_put_down(t_fork *fork);
 ** ============================================================================
 */
 
-t_bool		philo_change_state(t_philo *philo, int state);
+t_bool		philo_change_state(t_philo *philo, int state, const suseconds_t time);
 void		philo_update(t_philo *philo);
 
 /*
