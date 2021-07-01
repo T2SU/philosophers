@@ -6,13 +6,14 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 20:27:50 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 21:58:05 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 t_info	parse_into_info(int argc, char *argv[])
 {
@@ -43,6 +44,7 @@ static void	*philo_run(void *p_philo)
 		if (philo->info.number_to_eat > 0)
 			if (philo->numbers_had_meal >= philo->info.number_to_eat)
 				break ;
+		usleep(1);
 	}
 	return (NULL);
 }
@@ -72,6 +74,7 @@ int	main(int argc, char *argv[])
 	ret_code = EXIT_FAILURE;
 	if (info.numbers > 0 && table_init(info, &forks, &philos))
 	{
+		time_get();
 		run_and_join_threads(philos, info.numbers);
 		ret_code = EXIT_SUCCESS;
 	}

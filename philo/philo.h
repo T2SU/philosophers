@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 21:15:21 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 21:24:03 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_info
 	int				time_to_sleep;
 	int				number_to_eat;
 }					t_info;
-
 
 typedef struct s_philo
 {
