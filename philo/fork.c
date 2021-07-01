@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:08:29 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 22:23:08 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 22:45:40 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,16 @@ void	set_pickable_forks(int numbers, t_philo *philo, t_fork *forks)
 	}
 }
 
+/*
+** Try to take forks. it fails if two pickable forks are duplicated.
+*/
+
 t_bool	fork_try_takes(t_fork *pickable_forks[])
 {
 	t_bool	success;
 
+	if (pickable_forks[0]->unique_id == pickable_forks[1]->unique_id)
+		return (FALSE);
 	pthread_mutex_lock(&pickable_forks[0]->mutex);
 	pthread_mutex_lock(&pickable_forks[1]->mutex);
 	if (pickable_forks[0]->state == kNotUsing
