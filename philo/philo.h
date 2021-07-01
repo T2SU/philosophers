@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 21:24:03 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 22:39:14 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ typedef struct s_philo
 ** ============================================================================
 */
 
-void		sort_fork_by_priority(t_fork *pickable_forks[], t_fork *sorted[]);
+t_bool		fork_init(int unique_id, t_fork *fork);
+void		set_pickable_forks(int numbers, t_philo *philo, t_fork *forks);
 t_bool		fork_try_takes(t_fork *pickable_forks[]);
 void		fork_put_downs(t_fork *pickable_forks[]);
 
@@ -82,17 +83,9 @@ void		fork_put_downs(t_fork *pickable_forks[]);
 ** ============================================================================
 */
 
+void		philo_init(int unique_id, t_philo *philo, t_info info);
 t_bool		philo_change_state(t_philo *philo, int state, const time_t time);
 void		philo_update(t_philo *philo);
-
-/*
-** ============================================================================
-**   [[ table.c ]]
-** ============================================================================
-*/
-
-t_bool		table_init(t_info info, t_fork **forks, t_philo **philos);
-void		table_free(t_info info, t_fork **forks, t_philo **philos);
 
 /*
 ** ============================================================================
@@ -101,6 +94,14 @@ void		table_free(t_info info, t_fork **forks, t_philo **philos);
 */
 
 time_t		time_get(void);
+
+/*
+** ============================================================================
+**   [[ thread.c ]]
+** ============================================================================
+*/
+
+void		thread_run_and_join(t_philo *philos, int numbers);
 
 /*
 ** ============================================================================

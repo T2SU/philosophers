@@ -6,9 +6,9 @@ FILES = \
 	main \
 	fork \
 	philo \
-	table \
 	time \
-	utils
+	utils \
+	thread
 FILES_SRC = $(addsuffix .c, $(FILES))
 FILES_OBJ = $(FILES_SRC:.c=.o)
 

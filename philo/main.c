@@ -6,16 +6,15 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 22:04:19 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 22:41:02 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <pthread.h>
 
-t_info	parse_into_info(int argc, char *argv[])
+static t_info	parse_into_info(int argc, char *argv[])
 {
 	int		numbers;
 	t_info	info;
@@ -33,35 +32,44 @@ t_info	parse_into_info(int argc, char *argv[])
 	return (info);
 }
 
-static void	*philo_run(void *p_philo)
+static t_bool	init_static_variables(void)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)p_philo;
-	while (philo->state != kDead)
-	{
-		philo_update(philo);
-		if (philo->info.number_to_eat > 0)
-			if (philo->numbers_had_meal >= philo->info.number_to_eat)
-				break ;
-		usleep(1);
-	}
-	return (NULL);
+	if (!philo_change_state(NULL, 0, 0))
+		return (FALSE);
+	time_get();
+	return (TRUE);
 }
 
-static void	run_and_join_threads(t_philo *philos, int numbers)
+static t_bool	init_objects(t_info info, t_fork *forks, t_philo *philos)
+{
+	int	i;
+
+	i = -1;
+	while (++i < info.numbers)
+	{
+		if (!fork_init(i + 1, &forks[i]))
+			return (FALSE);
+		philo_init(i + 1, &philos[i], info);
+	}
+	i = -1;
+	while (++i < info.numbers)
+		set_pickable_forks(info.numbers, &philos[i], forks);
+	return (TRUE);
+}
+
+static int	free_objects(t_info info, t_fork *forks, t_philo *philos, int ret)
 {
 	int	i;
 
 	i = 0;
-	while (i < numbers)
-	{
-		pthread_create(&philos[i].thread, NULL, &philo_run, &philos[i]);
-		i++;
-	}
+	while (i < info.numbers)
+		philos[i++].state = kDead;
 	i = 0;
-	while (i < numbers)
-		pthread_join(philos[i++].thread, NULL);
+	while (i < info.numbers)
+		pthread_mutex_destroy(&forks[i++].mutex);
+	free(forks);
+	free(philos);
+	return (ret);
 }
 
 int	main(int argc, char *argv[])
@@ -69,15 +77,15 @@ int	main(int argc, char *argv[])
 	const t_info	info = parse_into_info(argc, argv);
 	t_philo			*philos;
 	t_fork			*forks;
-	int				ret_code;
 
-	ret_code = EXIT_FAILURE;
-	if (info.numbers > 0 && table_init(info, &forks, &philos))
-	{
-		time_get();
-		run_and_join_threads(philos, info.numbers);
-		ret_code = EXIT_SUCCESS;
-	}
-	table_free(info, &forks, &philos);
-	return (ret_code);
+	philos = malloc(sizeof(t_philo) * info.numbers);
+	forks = malloc(sizeof(t_fork) * info.numbers);
+	if (info.numbers == 0
+		|| philos == NULL
+		|| forks == NULL
+		|| !init_objects(info, forks, philos)
+		|| !init_static_variables())
+		return (free_objects(info, forks, philos, EXIT_FAILURE));
+	thread_run_and_join(philos, info.numbers);
+	return (free_objects(info, forks, philos, EXIT_SUCCESS));
 }
