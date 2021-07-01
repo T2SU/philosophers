@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 20:02:59 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 21:15:21 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				unique_id;
 	int				state;
-	int				taken_forks;
 	int				numbers_had_meal;
 	t_fork			*pickable_forks[2];
-	suseconds_t		last_meal;
-	suseconds_t		state_end_time;
+	time_t			last_meal;
+	time_t			state_end_time;
 	t_info			info;
 }					t_philo;
 
@@ -74,8 +73,9 @@ typedef struct s_philo
 ** ============================================================================
 */
 
-t_bool		fork_try_take(t_fork *fork);
-void		fork_put_down(t_fork *fork);
+void		sort_fork_by_priority(t_fork *pickable_forks[], t_fork *sorted[]);
+t_bool		fork_try_takes(t_fork *pickable_forks[]);
+void		fork_put_downs(t_fork *pickable_forks[]);
 
 /*
 ** ============================================================================
@@ -83,7 +83,7 @@ void		fork_put_down(t_fork *fork);
 ** ============================================================================
 */
 
-t_bool		philo_change_state(t_philo *philo, int state, const suseconds_t time);
+t_bool		philo_change_state(t_philo *philo, int state, const time_t time);
 void		philo_update(t_philo *philo);
 
 /*
@@ -101,7 +101,7 @@ void		table_free(t_info info, t_fork **forks, t_philo **philos);
 ** ============================================================================
 */
 
-suseconds_t	time_get(void);
+time_t		time_get(void);
 
 /*
 ** ============================================================================

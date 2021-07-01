@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 14:48:30 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 20:05:01 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 20:52:19 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,11 @@
 
 static void	set_pickable_forks(int numbers, t_philo *philo, t_fork *forks)
 {
-	int	left_fork_id;
-	int	right_fork_id;
+	t_fork	*pickable_forks[2];
 
-	left_fork_id = (philo->unique_id + 0) % numbers;
-	right_fork_id = (philo->unique_id + 1) % numbers;
-	if (forks[left_fork_id].unique_id > forks[right_fork_id].unique_id)
-	{
-		philo->pickable_forks[0] = &forks[left_fork_id];
-		philo->pickable_forks[1] = &forks[right_fork_id];
-	}
-	else
-	{
-		philo->pickable_forks[0] = &forks[right_fork_id];
-		philo->pickable_forks[1] = &forks[left_fork_id];
-	}
+	pickable_forks[kLeft] = &forks[(philo->unique_id + 0) % numbers];
+	pickable_forks[kRight] = &forks[(philo->unique_id + 1) % numbers];
+	sort_fork_by_priority(pickable_forks, philo->pickable_forks);
 }
 
 static void	philo_init(int unique_id, t_philo *philo, t_info info)
