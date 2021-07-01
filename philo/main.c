@@ -6,14 +6,13 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 19:51:20 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 20:27:50 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 t_info	parse_into_info(int argc, char *argv[])
 {
@@ -41,8 +40,7 @@ static void	*philo_run(void *p_philo)
 	while (philo->state != kDead)
 	{
 		philo_update(philo);
-		usleep(1);
-		if (philo->numbers_had_meal > 0)
+		if (philo->info.number_to_eat > 0)
 			if (philo->numbers_had_meal >= philo->info.number_to_eat)
 				break ;
 	}
