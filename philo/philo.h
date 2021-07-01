@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 18:48:47 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 19:43:09 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_fork
 
 typedef struct s_info
 {
+	int				numbers;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -60,6 +61,7 @@ typedef struct s_philo
 	int				unique_id;
 	int				state;
 	int				taken_forks;
+	int				numbers_had_meal;
 	t_fork			*pickable_forks[2];
 	suseconds_t		last_meal;
 	suseconds_t		state_end_time;
@@ -81,6 +83,18 @@ void		fork_put_down(t_fork *fork);
 ** ============================================================================
 */
 
+t_bool		philo_change_state(t_philo *philo, int state);
+void		philo_update(t_philo *philo);
+
+/*
+** ============================================================================
+**   [[ table.c ]]
+** ============================================================================
+*/
+
+t_bool		table_init(t_info info, t_fork **forks, t_philo **philos);
+void		table_free(t_info info, t_fork **forks, t_philo **philos);
+
 /*
 ** ============================================================================
 **   [[ time.c ]]
@@ -96,5 +110,6 @@ suseconds_t	time_get(void);
 */
 
 void		ft_bzero(void *s, size_t n);
+t_bool		ft_atoi_strict(const char *str, int *pvalue);
 
 #endif

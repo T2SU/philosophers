@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 18:50:20 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 19:51:42 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static t_bool	philo_change_state(t_philo *philo, int state)
+t_bool	philo_change_state(t_philo *philo, int state)
 {
 	static pthread_mutex_t	mutex;
 
@@ -50,7 +50,7 @@ static void	philo_try_to_eat(t_philo *philo, const suseconds_t time)
 	if (!fork_try_take(fork))
 		return ;
 	if (++(philo->taken_forks) < 2)
-		return;
+		return ;
 	philo->state_end_time = time + philo->info.time_to_eat;
 	philo->last_meal = time;
 	philo_change_state(philo, kEating);
@@ -63,7 +63,7 @@ static void	philo_stop_to_eat(t_philo *philo)
 	fork_put_down(philo->pickable_forks[1]);
 }
 
-static void	philo_update(t_philo *philo)
+void	philo_update(t_philo *philo)
 {
 	const suseconds_t	time = time_get();
 
@@ -77,6 +77,7 @@ static void	philo_update(t_philo *philo)
 	if (philo->state == kEating)
 	{
 		philo_stop_to_eat(philo);
+		(philo->numbers_had_meal)++;
 		philo->state_end_time = time + philo->info.time_to_sleep;
 		philo_change_state(philo, kSleeping);
 	}
@@ -84,13 +85,4 @@ static void	philo_update(t_philo *philo)
 		philo_change_state(philo, kThinking);
 	else if (philo->state == kThinking)
 		philo_try_to_eat(philo, time);
-}
-
-void	philo_run(t_philo *philo)
-{
-	while (philo->state != kDead)
-	{
-		philo_update(philo);
-		usleep(1);
-	}
 }

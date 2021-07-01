@@ -6,58 +6,77 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 16:09:08 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 19:51:20 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/time.h>
-#include <stdio.h>
-#include <unistd.h>
 #include "philo.h"
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-int		main(void)
+t_info	parse_into_info(int argc, char *argv[])
 {
-	struct timeval time;
+	int		numbers;
+	t_info	info;
 
-	gettimeofday(&time, NULL);
-	suseconds_t first = time.tv_usec;
-	for (int i = 0; i < 1; i++)
-		usleep(1);
-	gettimeofday(&time, NULL);
-	suseconds_t end = time.tv_usec;
-	printf("%u, %u, %u\n", first, end, end - first);
-	return (0);
+	ft_bzero(&info, sizeof(t_info));
+	if (argc < 5 || argc > 6)
+		return (info);
+	if (argc == 6 && !ft_atoi_strict(argv[5], &info.number_to_eat))
+		return (info);
+	if (ft_atoi_strict(argv[4], &info.time_to_sleep)
+		&& ft_atoi_strict(argv[3], &info.time_to_eat)
+		&& ft_atoi_strict(argv[2], &info.time_to_die)
+		&& ft_atoi_strict(argv[1], &numbers))
+		info.numbers = numbers;
+	return (info);
 }
 
-t_bool	init_forks(t_table *table)
+static void	*philo_run(void *p_philo)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)p_philo;
+	while (philo->state != kDead)
+	{
+		philo_update(philo);
+		usleep(1);
+		if (philo->numbers_had_meal > 0)
+			if (philo->numbers_had_meal >= philo->info.number_to_eat)
+				break ;
+	}
+	return (NULL);
+}
+
+static void	run_and_join_threads(t_philo *philos, int numbers)
 {
 	int	i;
 
-	table->forks = malloc(sizeof(t_fork) * table->numbers);
-
-	if (table->forks == NULL)
-		return (FALSE);
 	i = 0;
-	while (i < table->numbers)
+	while (i < numbers)
 	{
-		if (!init_fork(i, &table->forks[i]))
-			return (FALSE);
+		pthread_create(&philos[i].thread, NULL, &philo_run, &philos[i]);
 		i++;
 	}
-	return (TRUE);
+	i = 0;
+	while (i < numbers)
+		pthread_join(philos[i++].thread, NULL);
 }
 
-t_bool	init_table(int numbers, t_table *table)
+int	main(int argc, char *argv[])
 {
-	table->numbers = numbers;
-	table->philosophers = malloc(sizeof(t_philo) * numbers);
-}
+	const t_info	info = parse_into_info(argc, argv);
+	t_philo			*philos;
+	t_fork			*forks;
+	int				ret_code;
 
-void	run_philosopher(t_philo *philo)
-{
-
-}
-
-t_bool	init_philosopher(t_philo *philo)
-{
+	ret_code = EXIT_FAILURE;
+	if (info.numbers > 0 && table_init(info, &forks, &philos))
+	{
+		run_and_join_threads(philos, info.numbers);
+		ret_code = EXIT_SUCCESS;
+	}
+	table_free(info, &forks, &philos);
+	return (ret_code);
 }

@@ -1,10 +1,14 @@
 CC = gcc
-#CFLAGS = -Wall -Wextra -Werror
-CFLAGS =
+CFLAGS = -Wall -Wextra -Werror
 
 INC = -I.
 FILES = \
-main
+	main \
+	fork \
+	philo \
+	table \
+	time \
+	utils
 FILES_SRC = $(addsuffix .c, $(FILES))
 FILES_OBJ = $(FILES_SRC:.c=.o)
 
