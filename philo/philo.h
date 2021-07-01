@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/06/30 19:35:32 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/01 13:49:03 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct		s_philo
 typedef struct		s_fork
 {
 	pthread_mutex_t	mutex;
+	int				unique_id;
 	int				state;
 }					t_fork;
 
