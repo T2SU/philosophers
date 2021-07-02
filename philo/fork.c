@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:08:29 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 14:25:04 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 14:30:33 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ t_bool	fork_init(int unique_id, t_fork *fork)
 {
 	if (0 != pthread_mutex_init(&fork->mutex, NULL))
 		return (FALSE);
-	fork->state = kNotUsing;
 	fork->unique_id = unique_id;
 	return (TRUE);
 }
@@ -54,25 +53,12 @@ t_bool	fork_is_same(t_fork *forks[])
 ** Try to take forks. it fails if two pickable forks are duplicated.
 */
 
-t_bool	fork_try_to_take(t_fork *fork)
+void	fork_try_to_take(t_fork *fork)
 {
-	t_bool	success;
-
 	pthread_mutex_lock(&fork->mutex);
-	if (fork->state == kNotUsing)
-	{
-		fork->state = kUsing;
-		success = TRUE;
-	}
-	else
-		success = FALSE;
-	pthread_mutex_unlock(&fork->mutex);
-	return (success);
 }
 
 void	fork_put_down(t_fork *fork)
 {
-	pthread_mutex_lock(&fork->mutex);
-	fork->state = kNotUsing;
 	pthread_mutex_unlock(&fork->mutex);
 }

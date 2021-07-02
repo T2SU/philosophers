@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 14:25:04 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 14:30:17 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,10 @@ enum e_philo_state
 	kDead
 };
 
-enum e_fork_state
-{
-	kNotUsing,
-	kUsing
-};
-
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex;
 	int				unique_id;
-	int				state;
 }					t_fork;
 
 typedef struct s_info
@@ -73,7 +66,7 @@ typedef struct s_philo
 t_bool		fork_init(int unique_id, t_fork *fork);
 void		prioritize_forks_to_pick(int numbers, t_philo *philo, t_fork *forks);
 t_bool		fork_is_same(t_fork *forks[]);
-t_bool		fork_try_to_take(t_fork *fork);
+void		fork_try_to_take(t_fork *fork);
 void		fork_put_down(t_fork *fork);
 
 /*
