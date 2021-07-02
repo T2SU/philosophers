@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 12:48:55 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 13:05:30 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_bool	init_objects(t_info *info, t_fork *forks, t_philo *philos)
 	}
 	i = -1;
 	while (++i < info->numbers)
-		specify_forks_to_pick(info->numbers, &philos[i], forks);
+		prioritize_forks_to_pick(info->numbers, &philos[i], forks);
 	return (TRUE);
 }
 

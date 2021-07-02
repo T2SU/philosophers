@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 12:45:30 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 13:05:30 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_philo
 	int				unique_id;
 	int				state;
 	int				numbers_had_meal;
-	t_fork			*forks_to_pick[2];
+	t_fork			*prioritized_forks[2];
 	time_t			last_meal;
 	time_t			state_end_time;
 	t_info			*info;
@@ -75,7 +75,7 @@ typedef struct s_philo
 */
 
 t_bool		fork_init(int unique_id, t_fork *fork);
-void		specify_forks_to_pick(int numbers, t_philo *philo, t_fork *forks);
+void		prioritize_forks_to_pick(int numbers, t_philo *philo, t_fork *forks);
 t_bool		fork_try_takes(t_fork *pickable_forks[]);
 void		fork_put_downs(t_fork *pickable_forks[]);
 

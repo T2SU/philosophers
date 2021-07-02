@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 12:45:50 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 13:04:51 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_bool	philo_change_state(t_philo *philo, int state, const time_t time)
 
 static void	philo_try_to_eat(t_philo *philo, const time_t time)
 {
-	if (!fork_try_takes(philo->forks_to_pick))
+	if (!fork_try_takes(philo->prioritized_forks))
 		return ;
 	philo->state_end_time = time + philo->info->time_to_eat;
 	philo->last_meal = time;
@@ -63,7 +63,7 @@ static void	philo_try_to_eat(t_philo *philo, const time_t time)
 
 static void	philo_stop_to_eat(t_philo *philo, const time_t time)
 {
-	fork_put_downs(philo->forks_to_pick);
+	fork_put_downs(philo->prioritized_forks);
 	(philo->numbers_had_meal)++;
 	philo->state_end_time = time + philo->info->time_to_sleep;
 	philo_change_state(philo, kSleeping, time);
