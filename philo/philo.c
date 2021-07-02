@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 13:04:51 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 14:25:04 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ t_bool	philo_change_state(t_philo *philo, int state, const time_t time)
 
 static void	philo_try_to_eat(t_philo *philo, const time_t time)
 {
-	if (!fork_try_takes(philo->prioritized_forks))
+	if (fork_is_same(philo->prioritized_forks))
 		return ;
+	fork_try_to_take(philo->prioritized_forks[0]);
+	fork_try_to_take(philo->prioritized_forks[1]);
 	philo->state_end_time = time + philo->info->time_to_eat;
 	philo->last_meal = time;
 	philo_change_state(philo, kEating, time);
@@ -63,7 +65,8 @@ static void	philo_try_to_eat(t_philo *philo, const time_t time)
 
 static void	philo_stop_to_eat(t_philo *philo, const time_t time)
 {
-	fork_put_downs(philo->prioritized_forks);
+	fork_put_down(philo->prioritized_forks[0]);
+	fork_put_down(philo->prioritized_forks[1]);
 	(philo->numbers_had_meal)++;
 	philo->state_end_time = time + philo->info->time_to_sleep;
 	philo_change_state(philo, kSleeping, time);

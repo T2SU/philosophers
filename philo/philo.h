@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 13:05:30 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 14:25:04 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@ enum e_fork_state
 	kUsing
 };
 
-enum e_dir
-{
-	kLeft,
-	kRight
-};
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex;
@@ -62,6 +57,7 @@ typedef struct s_philo
 	int				unique_id;
 	int				state;
 	int				numbers_had_meal;
+	int				taken_forks;
 	t_fork			*prioritized_forks[2];
 	time_t			last_meal;
 	time_t			state_end_time;
@@ -76,8 +72,9 @@ typedef struct s_philo
 
 t_bool		fork_init(int unique_id, t_fork *fork);
 void		prioritize_forks_to_pick(int numbers, t_philo *philo, t_fork *forks);
-t_bool		fork_try_takes(t_fork *pickable_forks[]);
-void		fork_put_downs(t_fork *pickable_forks[]);
+t_bool		fork_is_same(t_fork *forks[]);
+t_bool		fork_try_to_take(t_fork *fork);
+void		fork_put_down(t_fork *fork);
 
 /*
 ** ============================================================================
