@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/02 12:26:18 by smun              #+#    #+#              #
-#    Updated: 2021/07/02 17:12:03 by smun             ###   ########.fr        #
+#    Updated: 2021/07/02 17:34:11 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,6 @@ re : fclean all
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME) : $(FILES_OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(FILES_OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
 
 .PHONY: all clean fclean re $(NAME)
