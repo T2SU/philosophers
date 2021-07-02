@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 16:48:25 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 17:12:22 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void			fork_put_down(t_fork *fork);
 */
 
 void			philo_init(int unique_id, t_philo *philo, t_info *info);
-t_bool			philo_change_state(t_philo *philo, int state, time_t time);
+void			philo_change_state(t_philo *philo, int state, time_t time);
 void			philo_update(t_philo *philo);
 
 /*
@@ -123,5 +123,15 @@ t_bool			ft_atoi_strict(const char *str, int *pvalue);
 t_bool			info_parse_details(t_info *info, int argc, char *argv[]);
 void			info_increase_died_count(t_info *info);
 int				info_get_died_count(t_info *info);
+
+/*
+** ============================================================================
+**   [[ print.c ]]
+** ============================================================================
+*/
+
+t_bool			print_init(void);
+void			print_state(int unique_id, int state, const time_t time);
+void			print_fork(int unique_id, const time_t time);
 
 #endif

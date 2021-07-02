@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/02 12:26:18 by smun              #+#    #+#              #
-#    Updated: 2021/07/02 12:44:56 by smun             ###   ########.fr        #
+#    Updated: 2021/07/02 17:12:03 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ FILES = \
 	philo \
 	time \
 	utils \
-	thread
+	thread \
+	print
 FILES_SRC = $(addsuffix .c, $(FILES))
 FILES_OBJ = $(FILES_SRC:.c=.o)
 

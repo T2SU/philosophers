@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 16:44:52 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 17:13:31 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,10 @@ void				philo_init(int unique_id, t_philo *philo, t_info *info)
 	philo->info = info;
 }
 
-t_bool				philo_change_state(t_philo *philo, int state, time_t time)
+void				philo_change_state(t_philo *philo, int state, time_t time)
 {
-	static t_mutex	mutex;
-
-	if (philo == NULL)
-	{
-		if (0 != pthread_mutex_init(&mutex, NULL))
-			return (FALSE);
-		return (TRUE);
-	}
 	philo->state = state;
-	pthread_mutex_lock(&mutex);
-	if (state == kEating)
-		printf("%ld %d is eating\n", time, philo->unique_id);
-	else if (state == kSleeping)
-		printf("%ld %d is sleeping\n", time, philo->unique_id);
-	else if (state == kThinking)
-		printf("%ld %d is thinking\n", time, philo->unique_id);
-	else if (state == kDead)
-		printf("%ld %d is died\n", time, philo->unique_id);
-	pthread_mutex_unlock(&mutex);
-	return (TRUE);
+	print_state(philo->unique_id, state, time);
 }
 
 /*
@@ -57,7 +39,9 @@ static void			philo_try_to_eat(t_philo *philo, time_t time)
 	if (fork_is_same(philo->prioritized_forks))
 		return ;
 	fork_try_to_take(philo->prioritized_forks[0]);
+	print_fork(philo->unique_id, time);
 	fork_try_to_take(philo->prioritized_forks[1]);
+	print_fork(philo->unique_id, time);
 	philo->state_end_time = time + philo->info->time_to_eat;
 	philo->last_meal = time;
 	philo_change_state(philo, kEating, time);

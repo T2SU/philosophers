@@ -6,21 +6,13 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 16:48:25 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 17:13:55 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
 #include <pthread.h>
-
-static t_bool	init_static_variables(void)
-{
-	if (!philo_change_state(NULL, 0, 0))
-		return (FALSE);
-	time_get();
-	return (TRUE);
-}
 
 static t_bool	init_objects(t_info *info, t_fork *forks, t_philo *philos)
 {
@@ -36,6 +28,14 @@ static t_bool	init_objects(t_info *info, t_fork *forks, t_philo *philos)
 	i = -1;
 	while (++i < info->numbers)
 		prioritize_forks(info->numbers, &philos[i], forks);
+	return (TRUE);
+}
+
+static t_bool	init_static_variables(void)
+{
+	if (!print_init())
+		return (FALSE);
+	time_get();
 	return (TRUE);
 }
 
