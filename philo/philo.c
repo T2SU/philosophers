@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 16:32:08 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 16:44:52 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void	philo_init(int unique_id, t_philo *philo, t_info *info)
+void				philo_init(int unique_id, t_philo *philo, t_info *info)
 {
 	ft_bzero(philo, sizeof(t_philo));
 	philo->state = kThinking;
@@ -24,9 +24,9 @@ void	philo_init(int unique_id, t_philo *philo, t_info *info)
 	philo->info = info;
 }
 
-t_bool	philo_change_state(t_philo *philo, int state, const time_t time)
+t_bool				philo_change_state(t_philo *philo, int state, time_t time)
 {
-	static pthread_mutex_t	mutex;
+	static t_mutex	mutex;
 
 	if (philo == NULL)
 	{
@@ -52,7 +52,7 @@ t_bool	philo_change_state(t_philo *philo, int state, const time_t time)
 ** Trying to pick bigger unique_id of fork.
 */
 
-static void	philo_try_to_eat(t_philo *philo, const time_t time)
+static void			philo_try_to_eat(t_philo *philo, time_t time)
 {
 	if (fork_is_same(philo->prioritized_forks))
 		return ;
@@ -63,7 +63,7 @@ static void	philo_try_to_eat(t_philo *philo, const time_t time)
 	philo_change_state(philo, kEating, time);
 }
 
-static void	philo_stop_to_eat(t_philo *philo, const time_t time)
+static void			philo_stop_to_eat(t_philo *philo, time_t time)
 {
 	fork_put_down(philo->prioritized_forks[0]);
 	fork_put_down(philo->prioritized_forks[1]);
@@ -72,7 +72,7 @@ static void	philo_stop_to_eat(t_philo *philo, const time_t time)
 	philo_change_state(philo, kSleeping, time);
 }
 
-void	philo_update(t_philo *philo)
+void				philo_update(t_philo *philo)
 {
 	const time_t	time = time_get();
 

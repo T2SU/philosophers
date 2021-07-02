@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 15:58:36 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 16:48:25 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_bool	init_static_variables(void)
 
 static t_bool	init_objects(t_info *info, t_fork *forks, t_philo *philos)
 {
-	int	i;
+	int			i;
 
 	i = -1;
 	while (++i < info->numbers)
@@ -39,9 +39,9 @@ static t_bool	init_objects(t_info *info, t_fork *forks, t_philo *philos)
 	return (TRUE);
 }
 
-static int	free_objects(t_info *info, t_fork *forks, t_philo *philos, int ret)
+static int		app_exit(t_info *info, t_fork *forks, t_philo *philos, int ret)
 {
-	int	i;
+	int			i;
 
 	if (philos != NULL)
 	{
@@ -61,23 +61,23 @@ static int	free_objects(t_info *info, t_fork *forks, t_philo *philos, int ret)
 	return (ret);
 }
 
-int	main(int argc, char *argv[])
+int				main(int argc, char *argv[])
 {
-	t_info			info;
-	t_philo			*philos;
-	t_fork			*forks;
+	t_info		info;
+	t_philo		*philos;
+	t_fork		*forks;
 
-	if (!info_new_simulation_details(&info, argc, argv))
-		return (free_objects(&info, NULL, NULL, EXIT_FAILURE));
+	if (!info_parse_details(&info, argc, argv))
+		return (app_exit(&info, NULL, NULL, EXIT_FAILURE));
 	philos = malloc(sizeof(t_philo) * info.numbers);
 	forks = malloc(sizeof(t_fork) * info.numbers);
 	if (philos == NULL || forks == NULL)
-		return (free_objects(&info, forks, philos, EXIT_FAILURE));
+		return (app_exit(&info, forks, philos, EXIT_FAILURE));
 	if (!init_objects(&info, forks, philos))
-		return (free_objects(&info, forks, philos, EXIT_FAILURE));
+		return (app_exit(&info, forks, philos, EXIT_FAILURE));
 	if (!init_static_variables())
-		return (free_objects(&info, forks, philos, EXIT_FAILURE));
+		return (app_exit(&info, forks, philos, EXIT_FAILURE));
 	thread_philosophers_begin(philos, info.numbers);
 	thread_philosophers_join(philos, info.numbers);
-	return (free_objects(&info, forks, philos, EXIT_SUCCESS));
+	return (app_exit(&info, forks, philos, EXIT_SUCCESS));
 }

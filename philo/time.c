@@ -6,14 +6,14 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:57:15 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 21:58:46 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 16:45:10 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <sys/time.h>
 
-time_t	time_get(void)
+time_t					time_get(void)
 {
 	static time_t		start_s;
 	static suseconds_t	start_us;

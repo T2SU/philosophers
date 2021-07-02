@@ -6,14 +6,14 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 12:43:20 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 15:45:42 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 16:48:25 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
 
-t_bool	info_new_simulation_details(t_info *info, int argc, char *argv[])
+t_bool	info_parse_details(t_info *info, int argc, char *argv[])
 {
 	ft_bzero(info, sizeof(t_info));
 	if (argc < 5 || argc > 6)
@@ -41,7 +41,7 @@ void	info_increase_died_count(t_info *info)
 	pthread_mutex_unlock(&info->mutex);
 }
 
-int	info_get_died_count(t_info *info)
+int		info_get_died_count(t_info *info)
 {
 	int	ret;
 
