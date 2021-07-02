@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 15:46:11 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 15:58:36 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,18 @@ static int	free_objects(t_info *info, t_fork *forks, t_philo *philos, int ret)
 {
 	int	i;
 
-	i = 0;
-	while (i < info->numbers)
-		philos[i++].state = kDead;
-	i = 0;
-	while (i < info->numbers)
-		pthread_mutex_destroy(&forks[i++].mutex);
+	if (philos != NULL)
+	{
+		i = -1;
+		while (++i < info->numbers)
+			philos[i].state = kDead;
+	}
+	if (forks != NULL)
+	{
+		i = -1;
+		while (++i < info->numbers)
+			pthread_mutex_destroy(&forks[i].mutex);
+	}
 	pthread_mutex_destroy(&info->mutex);
 	free(forks);
 	free(philos);
@@ -61,11 +67,11 @@ int	main(int argc, char *argv[])
 	t_philo			*philos;
 	t_fork			*forks;
 
+	if (!info_new_simulation_details(&info, argc, argv))
+		return (free_objects(&info, NULL, NULL, EXIT_FAILURE));
 	philos = malloc(sizeof(t_philo) * info.numbers);
 	forks = malloc(sizeof(t_fork) * info.numbers);
 	if (philos == NULL || forks == NULL)
-		return (free_objects(&info, forks, philos, EXIT_FAILURE));
-	if (!info_new_simulation_details(&info, argc, argv))
 		return (free_objects(&info, forks, philos, EXIT_FAILURE));
 	if (!init_objects(&info, forks, philos))
 		return (free_objects(&info, forks, philos, EXIT_FAILURE));

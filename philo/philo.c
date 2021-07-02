@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 14:29:47 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 16:16:26 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,13 @@ static void	philo_try_to_eat(t_philo *philo, const time_t time)
 {
 	if (fork_is_same(philo->prioritized_forks))
 		return ;
-	fork_try_to_take(philo->prioritized_forks[0]);
-	fork_try_to_take(philo->prioritized_forks[1]);
+	while (TRUE)
+	{
+		if (!try_to_take_fork(philo))
+			return ;
+		if (philo->taken_forks == 2)
+			break;
+	}
 	philo->state_end_time = time + philo->info->time_to_eat;
 	philo->last_meal = time;
 	philo_change_state(philo, kEating, time);
@@ -65,8 +70,7 @@ static void	philo_try_to_eat(t_philo *philo, const time_t time)
 
 static void	philo_stop_to_eat(t_philo *philo, const time_t time)
 {
-	fork_put_down(philo->prioritized_forks[0]);
-	fork_put_down(philo->prioritized_forks[1]);
+	put_down_forks(philo);
 	(philo->numbers_had_meal)++;
 	philo->state_end_time = time + philo->info->time_to_sleep;
 	philo_change_state(philo, kSleeping, time);

@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 22:10:59 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 15:44:25 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 15:59:57 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	*thread_run(void *p_philo)
 	while (philo->state != kDead && info_get_died_count(philo->info) == 0)
 	{
 		philo_update(philo);
-		if (philo->info->number_to_eat > 0)
+		if (philo->info->specified_number_to_eat)
 			if (philo->numbers_had_meal >= philo->info->number_to_eat)
 				break ;
 		usleep(200);
