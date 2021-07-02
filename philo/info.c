@@ -6,16 +6,17 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 12:43:20 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 16:48:25 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 17:17:46 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <string.h>
 #include <pthread.h>
 
 t_bool	info_parse_details(t_info *info, int argc, char *argv[])
 {
-	ft_bzero(info, sizeof(t_info));
+	memset(info, 0, sizeof(t_info));
 	if (argc < 5 || argc > 6)
 		return (FALSE);
 	info->specified_number_to_eat = (argc == 6);

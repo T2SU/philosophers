@@ -6,17 +6,16 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 17:13:31 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 17:19:11 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <stdio.h>
-#include <unistd.h>
+#include <string.h>
 
 void				philo_init(int unique_id, t_philo *philo, t_info *info)
 {
-	ft_bzero(philo, sizeof(t_philo));
+	memset(philo, 0, sizeof(t_philo));
 	philo->state = kThinking;
 	philo->unique_id = unique_id;
 	philo->last_meal = time_get();

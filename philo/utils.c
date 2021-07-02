@@ -6,27 +6,11 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 14:06:39 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 19:52:46 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 17:17:12 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*dest;
-	size_t			*dest_large;
-	size_t			i;
-
-	dest = (unsigned char *)s;
-	i = n % sizeof(size_t);
-	while (i--)
-		*(dest++) = 0;
-	dest_large = (size_t *)dest;
-	i = n / sizeof(size_t);
-	while (i--)
-		*(dest_large++) = 0;
-}
 
 /*
 ** Not parsable int?
