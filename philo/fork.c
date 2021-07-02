@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:08:29 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 14:30:33 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 15:46:11 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_bool	fork_init(int unique_id, t_fork *fork)
 ** Set philosopher's pickable and prioritized forks by unique id.
 */
 
-void	prioritize_forks_to_pick(int numbers, t_philo *philo, t_fork *forks)
+void	prioritize_forks(int numbers, t_philo *philo, t_fork *forks)
 {
 	t_fork	*left_fork;
 	t_fork	*right_fork;

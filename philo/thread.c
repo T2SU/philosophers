@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 22:10:59 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 12:52:43 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 15:44:25 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	*thread_run(void *p_philo)
 	return (NULL);
 }
 
-void	thread_run_and_join(t_philo *philos, int numbers)
+void	thread_philosophers_begin(t_philo *philos, int numbers)
 {
 	int	i;
 
@@ -40,6 +40,12 @@ void	thread_run_and_join(t_philo *philos, int numbers)
 		pthread_create(&philos[i].thread, NULL, &thread_run, &philos[i]);
 		i++;
 	}
+}
+
+void	thread_philosophers_join(t_philo *philos, int numbers)
+{
+	int	i;
+
 	i = 0;
 	while (i < numbers)
 		pthread_join(philos[i++].thread, NULL);
