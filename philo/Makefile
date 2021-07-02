@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/02 12:26:18 by smun              #+#    #+#              #
-#    Updated: 2021/07/02 17:34:11 by smun             ###   ########.fr        #
+#    Updated: 2021/07/02 19:05:38 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ FILES = \
 	main \
 	fork \
 	info \
+	philo_init \
 	philo \
-	time \
 	utils \
 	thread \
 	print

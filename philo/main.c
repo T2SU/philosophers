@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 17:35:52 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 19:00:42 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static int		app_exit(t_info *info, t_fork *forks, t_philo *philos, int ret)
 			pthread_mutex_destroy(&forks[i].mutex);
 	}
 	pthread_mutex_destroy(&info->mutex);
+	print_uninit();
 	free(forks);
 	free(philos);
 	return (ret);

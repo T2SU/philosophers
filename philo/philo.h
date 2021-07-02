@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 17:12:22 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 19:05:28 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,10 @@ enum			e_philo_state
 	kDead
 };
 
-enum			e_fork_state
-{
-	kNotTaken,
-	kTaken
-};
-
 typedef struct	s_fork
 {
 	t_mutex		mutex;
 	int			unique_id;
-	int			state;
 }				t_fork;
 
 typedef struct	s_info
@@ -59,7 +52,6 @@ typedef struct	s_philo
 	int			unique_id;
 	int			state;
 	int			numbers_had_meal;
-	int			taken_forks;
 	t_fork		*prioritized_forks[2];
 	time_t		last_meal;
 	time_t		state_end_time;
@@ -80,21 +72,19 @@ void			fork_put_down(t_fork *fork);
 
 /*
 ** ============================================================================
-**   [[ philo.c ]]
+**   [[ philo_init.c ]]
 ** ============================================================================
 */
 
 void			philo_init(int unique_id, t_philo *philo, t_info *info);
-void			philo_change_state(t_philo *philo, int state, time_t time);
-void			philo_update(t_philo *philo);
 
 /*
 ** ============================================================================
-**   [[ time.c ]]
+**   [[ philo.c ]]
 ** ============================================================================
 */
 
-time_t			time_get(void);
+void			philo_update(t_philo *philo);
 
 /*
 ** ============================================================================
@@ -111,7 +101,7 @@ void			thread_philosophers_join(t_philo *philos, int numbers);
 ** ============================================================================
 */
 
-void			ft_bzero(void *s, size_t n);
+time_t			time_get(void);
 t_bool			ft_atoi_strict(const char *str, int *pvalue);
 
 /*
@@ -133,5 +123,6 @@ int				info_get_died_count(t_info *info);
 t_bool			print_init(void);
 void			print_state(int unique_id, int state, const time_t time);
 void			print_fork(int unique_id, const time_t time);
+void			print_uninit(void);
 
 #endif

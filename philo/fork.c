@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:08:29 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 16:33:17 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 18:51:43 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	prioritize_forks(int numbers, t_philo *philo, t_fork *forks)
 	t_fork	*left_fork;
 	t_fork	*right_fork;
 
-	left_fork = &forks[(philo->unique_id + 0) % numbers];
-	right_fork = &forks[(philo->unique_id + 1) % numbers];
+	left_fork = &forks[(philo->unique_id - 1) % numbers];
+	right_fork = &forks[(philo->unique_id + 0) % numbers];
 	if ((philo->unique_id & 1) == 0)
 	{
 		philo->prioritized_forks[0] = right_fork;

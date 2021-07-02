@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   philo_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/01 16:57:15 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 16:45:10 by smun             ###   ########.fr       */
+/*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
+/*   Updated: 2021/07/02 19:05:10 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <sys/time.h>
+#include <string.h>
 
-time_t					time_get(void)
+void				philo_init(int unique_id, t_philo *philo, t_info *info)
 {
-	static time_t		start_s;
-	static suseconds_t	start_us;
-	struct timeval		t;
-	time_t				seconds;
-	suseconds_t			microseconds;
-
-	gettimeofday(&t, NULL);
-	if (!start_s)
-	{
-		start_s = t.tv_sec;
-		start_us = t.tv_usec;
-	}
-	seconds = t.tv_sec - start_s;
-	microseconds = t.tv_usec - start_us;
-	return (seconds * 1000 + microseconds / 1000);
+	memset(philo, 0, sizeof(t_philo));
+	philo->state = kThinking;
+	philo->unique_id = unique_id;
+	philo->last_meal = time_get();
+	philo->state_end_time = time_get();
+	philo->info = info;
 }
