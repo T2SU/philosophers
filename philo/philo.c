@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 22:20:17 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 12:45:50 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void	philo_init(int unique_id, t_philo *philo, t_info info)
+void	philo_init(int unique_id, t_philo *philo, t_info *info)
 {
 	ft_bzero(philo, sizeof(t_philo));
 	philo->state = kThinking;
@@ -54,18 +54,18 @@ t_bool	philo_change_state(t_philo *philo, int state, const time_t time)
 
 static void	philo_try_to_eat(t_philo *philo, const time_t time)
 {
-	if (!fork_try_takes(philo->pickable_forks))
+	if (!fork_try_takes(philo->forks_to_pick))
 		return ;
-	philo->state_end_time = time + philo->info.time_to_eat;
+	philo->state_end_time = time + philo->info->time_to_eat;
 	philo->last_meal = time;
 	philo_change_state(philo, kEating, time);
 }
 
 static void	philo_stop_to_eat(t_philo *philo, const time_t time)
 {
-	fork_put_downs(philo->pickable_forks);
+	fork_put_downs(philo->forks_to_pick);
 	(philo->numbers_had_meal)++;
-	philo->state_end_time = time + philo->info.time_to_sleep;
+	philo->state_end_time = time + philo->info->time_to_sleep;
 	philo_change_state(philo, kSleeping, time);
 }
 
@@ -73,9 +73,10 @@ void	philo_update(t_philo *philo)
 {
 	const time_t	time = time_get();
 
-	if (philo->last_meal + philo->info.time_to_die < time)
+	if (philo->last_meal + philo->info->time_to_die < time)
 	{
 		philo_change_state(philo, kDead, time);
+		info_increase_died_count(philo->info);
 		return ;
 	}
 	if (philo->state_end_time > time)

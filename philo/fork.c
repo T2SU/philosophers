@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:08:29 by smun              #+#    #+#             */
-/*   Updated: 2021/07/01 22:45:40 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 12:32:29 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,21 @@ t_bool	fork_init(int unique_id, t_fork *fork)
 ** Set philosopher's pickable and prioritied forks by its unique id.
 */
 
-void	set_pickable_forks(int numbers, t_philo *philo, t_fork *forks)
+void	specify_forks_to_pick(int numbers, t_philo *philo, t_fork *forks)
 {
 	t_fork	*pickable_forks[2];
-	t_fork	**sorted_forks;
 
 	pickable_forks[kLeft] = &forks[(philo->unique_id + 0) % numbers];
 	pickable_forks[kRight] = &forks[(philo->unique_id + 1) % numbers];
-	sorted_forks = philo->pickable_forks;
 	if (pickable_forks[kLeft]->unique_id > pickable_forks[kRight]->unique_id)
 	{
-		sorted_forks[0] = pickable_forks[kLeft];
-		sorted_forks[1] = pickable_forks[kRight];
+		philo->forks_to_pick[0] = pickable_forks[kLeft];
+		philo->forks_to_pick[1] = pickable_forks[kRight];
 	}
 	else
 	{
-		sorted_forks[0] = pickable_forks[kRight];
-		sorted_forks[1] = pickable_forks[kLeft];
+		philo->forks_to_pick[0] = pickable_forks[kRight];
+		philo->forks_to_pick[1] = pickable_forks[kLeft];
 	}
 }
 
