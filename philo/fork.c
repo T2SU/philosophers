@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:08:29 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 16:16:26 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 16:33:17 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,37 +53,12 @@ t_bool	fork_is_same(t_fork *forks[])
 ** Try to take forks. it fails if two pickable forks are duplicated.
 */
 
-t_bool	try_to_take_fork(t_philo *philo)
+void	fork_try_to_take(t_fork *fork)
 {
-	t_fork	*fork;
-	t_bool	success;
-
-	fork = philo->prioritized_forks[philo->taken_forks];
 	pthread_mutex_lock(&fork->mutex);
-	if (fork->state == kNotTaken)
-	{
-		success = TRUE;
-		fork->state = kTaken;
-		philo->taken_forks++;
-	}
-	else
-		success = FALSE;
-	pthread_mutex_unlock(&fork->mutex);
-	return (success);
 }
 
-void	put_down_forks(t_philo *philo)
+void	fork_put_down(t_fork *fork)
 {
-	t_fork	*fork;
-	int		i;
-
-	i = 0;
-	while (i < 2)
-	{
-		fork = philo->prioritized_forks[i++];
-		pthread_mutex_lock(&fork->mutex);
-		fork->state = kNotTaken;
-		pthread_mutex_unlock(&fork->mutex);
-		philo->taken_forks = 0;
-	}
+	pthread_mutex_unlock(&fork->mutex);
 }

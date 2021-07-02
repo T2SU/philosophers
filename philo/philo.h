@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 16:16:26 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 16:31:24 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ typedef struct s_philo
 t_bool		fork_init(int unique_id, t_fork *fork);
 void		prioritize_forks(int numbers, t_philo *philo, t_fork *forks);
 t_bool		fork_is_same(t_fork *forks[]);
-t_bool		try_to_take_fork(t_philo *philo);
-void		put_down_forks(t_philo *philo);
+void		fork_try_to_take(t_fork *fork);
+void		fork_put_down(t_fork *fork);
 
 /*
 ** ============================================================================

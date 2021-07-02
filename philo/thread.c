@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 22:10:59 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 15:59:57 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/02 16:30:54 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ static void	*thread_run(void *p_philo)
 			if (philo->numbers_had_meal >= philo->info->number_to_eat)
 				break ;
 		usleep(200);
+	}
+	if (philo->state == kEating)
+	{
+		fork_put_down(philo->prioritized_forks[0]);
+		fork_put_down(philo->prioritized_forks[1]);
 	}
 	return (NULL);
 }
