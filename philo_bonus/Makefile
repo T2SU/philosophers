@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/07/02 12:26:18 by smun              #+#    #+#              #
-#    Updated: 2021/07/06 16:07:39 by smun             ###   ########.fr        #
+#    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
+#    Updated: 2021/07/06 16:08:00 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,18 +21,11 @@ endif
 
 INC = -I.
 FILES = \
-	main \
-	fork \
-	info \
-	philo_init \
-	philo \
-	utils \
-	thread \
-	print
+	main
 FILES_SRC = $(addsuffix .c, $(FILES))
 FILES_OBJ = $(FILES_SRC:.c=.o)
 
-NAME = philo
+NAME = philo_bonus
 
 all : $(NAME)
 
