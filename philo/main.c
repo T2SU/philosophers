@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:04:18 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 19:00:42 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/06 16:00:56 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static t_bool	init_static_variables(void)
 	return (TRUE);
 }
 
-static int		app_exit(t_info *info, t_fork *forks, t_philo *philos, int ret)
+static int	app_exit(t_info *info, t_fork *forks, t_philo *philos, int ret)
 {
-	int			i;
+	int	i;
 
 	if (philos != NULL)
 	{
@@ -62,11 +62,11 @@ static int		app_exit(t_info *info, t_fork *forks, t_philo *philos, int ret)
 	return (ret);
 }
 
-int				main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-	t_info		info;
-	t_philo		*philos;
-	t_fork		*forks;
+	t_info	info;
+	t_philo	*philos;
+	t_fork	*forks;
 
 	if (!info_parse_details(&info, argc, argv))
 		return (app_exit(&info, NULL, NULL, EXIT_FAILURE));

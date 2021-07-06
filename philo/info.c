@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 12:43:20 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 17:17:46 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/06 16:01:06 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	info_increase_died_count(t_info *info)
 	pthread_mutex_unlock(&info->mutex);
 }
 
-int		info_get_died_count(t_info *info)
+int	info_get_died_count(t_info *info)
 {
 	int	ret;
 

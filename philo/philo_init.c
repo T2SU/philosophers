@@ -6,14 +6,14 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 19:05:10 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/06 16:02:39 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <string.h>
 
-void				philo_init(int unique_id, t_philo *philo, t_info *info)
+void	philo_init(int unique_id, t_philo *philo, t_info *info)
 {
 	memset(philo, 0, sizeof(t_philo));
 	philo->state = kThinking;

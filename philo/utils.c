@@ -6,14 +6,14 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 14:06:39 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 19:04:32 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/06 16:00:17 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <sys/time.h>
 
-time_t					time_get(void)
+time_t	time_get(void)
 {
 	static time_t		start_s;
 	static suseconds_t	start_us;
@@ -40,11 +40,11 @@ time_t					time_get(void)
 **   4.  only dash '-'
 */
 
-t_bool					ft_atoi_strict(const char *str, int *pvalue)
+t_bool	ft_atoi_strict(const char *str, int *pvalue)
 {
-	size_t				i;
-	t_bool				neg;
-	int					temp;
+	size_t	i;
+	t_bool	neg;
+	int		temp;
 
 	neg = str[0] == '-';
 	i = neg;

@@ -6,13 +6,13 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:52:41 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 19:05:16 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/06 16:00:35 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void			philo_change_state(t_philo *philo, int state, time_t time)
+static void	philo_change_state(t_philo *philo, int state, time_t time)
 {
 	philo->state = state;
 	print_state(philo->unique_id, state, time);
@@ -22,7 +22,7 @@ static void			philo_change_state(t_philo *philo, int state, time_t time)
 ** Trying to pick bigger unique_id of fork.
 */
 
-static void			philo_try_to_eat(t_philo *philo, time_t time)
+static void	philo_try_to_eat(t_philo *philo, time_t time)
 {
 	if (fork_is_same(philo->prioritized_forks))
 		return ;
@@ -35,7 +35,7 @@ static void			philo_try_to_eat(t_philo *philo, time_t time)
 	philo_change_state(philo, kEating, time);
 }
 
-static void			philo_drop_the_forks(t_philo *philo)
+static void	philo_drop_the_forks(t_philo *philo)
 {
 	if (philo->state == kEating)
 	{
@@ -44,7 +44,7 @@ static void			philo_drop_the_forks(t_philo *philo)
 	}
 }
 
-static void			philo_stop_to_eat(t_philo *philo, time_t time)
+static void	philo_stop_to_eat(t_philo *philo, time_t time)
 {
 	philo_drop_the_forks(philo);
 	(philo->numbers_had_meal)++;
@@ -52,7 +52,7 @@ static void			philo_stop_to_eat(t_philo *philo, time_t time)
 	philo_change_state(philo, kSleeping, time);
 }
 
-void				philo_update(t_philo *philo)
+void	philo_update(t_philo *philo)
 {
 	const time_t	time = time_get();
 

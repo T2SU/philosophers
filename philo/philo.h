@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/02 19:05:28 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/06 15:59:54 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # define TRUE 1
 # define FALSE 0
 
-typedef int	t_bool;
+typedef int				t_bool;
 typedef pthread_mutex_t	t_mutex;
 
-enum			e_philo_state
+enum	e_philo_state
 {
 	kThinking,
 	kEating,
@@ -28,13 +28,13 @@ enum			e_philo_state
 	kDead
 };
 
-typedef struct	s_fork
+typedef struct s_fork
 {
 	t_mutex		mutex;
 	int			unique_id;
 }				t_fork;
 
-typedef struct	s_info
+typedef struct s_info
 {
 	t_mutex		mutex;
 	int			died_count;
@@ -46,7 +46,7 @@ typedef struct	s_info
 	int			number_to_eat;
 }				t_info;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	pthread_t	thread;
 	int			unique_id;
