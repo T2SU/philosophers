@@ -6,11 +6,14 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 15:58:47 by smun              #+#    #+#             */
-/*   Updated: 2021/07/06 15:58:53 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/06 16:11:30 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+
 int	main(void)
 {
-	
+	printf("Hello bonus!\n");
+	return (0);
 }
