@@ -10,35 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 #include <stdio.h>
-#include <pthread.h>
+#include <semaphore.h>
+#include <fcntl.h>
 
-static t_mutex	*get_print_mutex(void)
+static sem_t	**get_print_semaphore(void)
 {
-	static t_mutex	mutex;
+	static sem_t	*sem;
 
-	return (&mutex);
+	return (&sem);
 }
 
 t_bool	print_init(void)
 {
-	if (0 != pthread_mutex_init(get_print_mutex(), NULL))
+	sem_t	*sem;
+
+	sem = sem_open(SEM_NAME_PRINT, O_CREAT, 0644);
+	if (sem == NULL)
 		return (FALSE);
+	sem_post(sem);
+	*get_print_semaphore() = sem;
 	return (TRUE);
 }
 
 void	print_close(void)
 {
-	pthread_mutex_destroy(get_print_mutex());
+	sem_close(*get_print_semaphore());
 }
 
 void	print_state(int unique_id, int state, const time_t time)
 {
-	t_mutex	*mutex;
+	sem_t	*sem;
 
-	mutex = get_print_mutex();
-	pthread_mutex_lock(mutex);
+	sem = *get_print_semaphore();
+	sem_wait(sem);
 	if (state == kEating)
 		printf("%ld %d is eating\n", time, unique_id);
 	else if (state == kSleeping)
@@ -47,15 +53,15 @@ void	print_state(int unique_id, int state, const time_t time)
 		printf("%ld %d is thinking\n", time, unique_id);
 	else if (state == kDead)
 		printf("%ld %d is died\n", time, unique_id);
-	pthread_mutex_unlock(mutex);
+	sem_post(sem);
 }
 
 void	print_fork(int unique_id, const time_t time)
 {
-	t_mutex	*mutex;
+	sem_t	*sem;
 
-	mutex = get_print_mutex();
-	pthread_mutex_lock(mutex);
+	sem = *get_print_semaphore();
+	sem_wait(sem);
 	printf("%ld %d has taken a fork\n", time, unique_id);
-	pthread_mutex_unlock(mutex);
+	sem_post(sem);
 }

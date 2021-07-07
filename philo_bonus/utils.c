@@ -6,12 +6,13 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 14:06:39 by smun              #+#    #+#             */
-/*   Updated: 2021/07/06 16:16:52 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/07 15:58:32 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 #include <sys/time.h>
+#include <stdlib.h>
 
 time_t	time_get(void)
 {

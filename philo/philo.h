@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/06 15:59:54 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/07 16:48:09 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,6 @@ int				info_get_died_count(t_info *info);
 t_bool			print_init(void);
 void			print_state(int unique_id, int state, const time_t time);
 void			print_fork(int unique_id, const time_t time);
-void			print_uninit(void);
+void			print_close(void);
 
 #endif

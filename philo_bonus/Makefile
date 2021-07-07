@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
-#    Updated: 2021/07/06 16:08:00 by smun             ###   ########.fr        #
+#    Updated: 2021/07/07 16:50:38 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,15 @@ endif
 
 INC = -I.
 FILES = \
-	main
+	main \
+	info \
+	philo_fork \
+	philo_init \
+	philo \
+	print \
+	process \
+	semaphore \
+	utils
 FILES_SRC = $(addsuffix .c, $(FILES))
 FILES_OBJ = $(FILES_SRC:.c=.o)
 
