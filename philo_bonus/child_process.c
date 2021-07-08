@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/07 20:36:49 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 00:01:31 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	*child_run(void *p_child)
 	if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
+		if (status == EXIT_FAILURE)
+			monitor_set_state(child->monitor, kInterrupted);
 		return (NULL);
 	}
 	if (pid < 0)

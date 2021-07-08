@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:18:14 by smun              #+#    #+#             */
-/*   Updated: 2021/07/07 20:53:48 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/08 23:56:05 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void	philo_update(t_philo *philo, t_child *child)
 	{
 		philo_drop_the_forks(philo);
 		philo_change_state(philo, kDead, time);
-		monitor_inc_died_count(child->monitor);
+		monitor_set_state(child->monitor, kInterrupted);
 		return ;
 	}
-	if (monitor_get_died_count(child->monitor) > 0)
+	if (monitor_get_state(child->monitor) == kInterrupted)
 	{
 		philo_drop_the_forks(philo);
 		philo->state = kDead;

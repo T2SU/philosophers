@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/07 22:56:00 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/08 23:59:39 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ enum	e_philo_state
 	kEating,
 	kSleeping,
 	kDead
+};
+
+enum	e_monitor_state
+{
+	kNormal,
+	kInterrupted
 };
 
 enum	e_uninit_option
@@ -83,7 +89,7 @@ typedef struct s_philo
 typedef struct s_monitor
 {
 	t_sync	sync;
-	int		died_count;
+	int		state;
 }			t_monitor;
 
 typedef struct s_printer
@@ -147,8 +153,8 @@ void	printer_taken_fork(int philo_id, const time_t time);
 ** ============================================================================
 */
 
-int		monitor_get_died_count(t_monitor *mon);
-void	monitor_inc_died_count(t_monitor *mon);
+int		monitor_get_state(t_monitor *mon);
+void	monitor_set_state(t_monitor *mon, int state);
 
 /*
 ** ============================================================================

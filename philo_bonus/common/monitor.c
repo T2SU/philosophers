@@ -6,25 +6,25 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 19:16:09 by smun              #+#    #+#             */
-/*   Updated: 2021/07/07 19:30:03 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 00:14:42 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int		monitor_get_died_count(t_monitor *mon)
+int		monitor_get_state(t_monitor *mon)
 {
 	int	ret;
 
 	sync_lock(&mon->sync);
-	ret = mon->died_count;
+	ret = mon->state;
 	sync_unlock(&mon->sync);
 	return (ret);
 }
 
-void	monitor_inc_died_count(t_monitor *mon)
+void	monitor_set_state(t_monitor *mon, int state)
 {
 	sync_lock(&mon->sync);
-	mon->died_count++;
+	mon->state = state;
 	sync_unlock(&mon->sync);
 }

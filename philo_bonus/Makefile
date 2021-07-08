@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
-#    Updated: 2021/07/07 21:19:28 by smun             ###   ########.fr        #
+#    Updated: 2021/07/09 00:14:04 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,13 @@ endif
 
 INC = -I.
 FILES = \
-	main \
-	simulator \
-	philo \
-	printer \
-	child \
-	utils \
-	monitor \
+	common/main \
+	common/simulator \
+	common/philo \
+	common/printer \
+	common/child \
+	common/utils \
+	common/monitor \
 	sync_semaphore \
 	child_process
 FILES_SRC = $(addsuffix .c, $(FILES))
