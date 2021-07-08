@@ -6,12 +6,17 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
-#    Updated: 2021/07/07 16:50:38 by smun             ###   ########.fr        #
+#    Updated: 2021/07/07 21:19:28 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+
+# Debug compilation
+ifeq ($(DEBUG),1)
+	CFLAGS += -g
+endif
 
 # Compilation option for Linux
 UNAME_S := $(shell uname -s)
@@ -22,14 +27,14 @@ endif
 INC = -I.
 FILES = \
 	main \
-	info \
-	philo_fork \
-	philo_init \
+	simulator \
 	philo \
-	print \
-	process \
-	semaphore \
-	utils
+	printer \
+	child \
+	utils \
+	monitor \
+	sync_semaphore \
+	child_process
 FILES_SRC = $(addsuffix .c, $(FILES))
 FILES_OBJ = $(FILES_SRC:.c=.o)
 
@@ -51,4 +56,4 @@ re : fclean all
 $(NAME) : $(FILES_OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
 
-.PHONY: all clean fclean re $(NAME)
+.PHONY: all clean fclean re $(NAME) debug

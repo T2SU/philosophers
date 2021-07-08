@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/07 19:17:00 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/07 22:56:00 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <pthread.h>
 # define TRUE 1
 # define FALSE 0
-# define SEM_NAME_PHILO "sem_philo_bonus"
-# define SEM_NAME_MONITOR "sem_philo_bonus_monitor"
-# define SEM_NAME_PRINT "sem_philo_bonus_print"
+# define SEM_NAME_PHILO "sem_philo"
+# define SEM_NAME_MONITOR "sem_monitor"
+# define SEM_NAME_PRINT "sem_print"
 
 typedef int	t_bool;
 
@@ -91,6 +91,15 @@ typedef struct s_printer
 	t_sync	sync;
 }			t_printer;
 
+typedef struct s_child
+{
+	t_philo		*philo;
+	t_info		*info;
+	t_printer	*printer;
+	t_monitor	*monitor;
+	pthread_t	thread;
+}				t_child;
+
 typedef struct s_simulator
 {
 	t_info		info;
@@ -98,16 +107,8 @@ typedef struct s_simulator
 	t_monitor	monitor;
 	t_philo		*philos;
 	t_sync		*forks;
-	pthread_t	*threads;
+	t_child		*childs;
 }				t_simulator;
-
-typedef struct s_child
-{
-	t_philo		*philo;
-	t_info		*info;
-	t_printer	*printer;
-	t_monitor	*monitor;
-}				t_child;
 
 /*
 ** ============================================================================
@@ -151,11 +152,29 @@ void	monitor_inc_died_count(t_monitor *mon);
 
 /*
 ** ============================================================================
+**   [[ child.c ]]
+** ============================================================================
+*/
+
+void	child_update(t_child *child);
+void	child_begin(t_simulator *sim);
+void	child_wait_to_end(t_simulator *sim);
+
+/*
+** ============================================================================
+**   [[ child_[implementation].c ]] (process/thread)
+** ============================================================================
+*/
+
+void	*child_run(void *p_child);
+
+/*
+** ============================================================================
 **   [[ philo.c ]]
 ** ============================================================================
 */
 
-void	philo_update(t_philo *philo);
+void	philo_update(t_philo *philo, t_child *child);
 
 /*
 ** ============================================================================

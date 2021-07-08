@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/07 19:30:38 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/07 21:23:17 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ static t_bool	init_logic_objects(t_simulator *sim)
 	t_philo			*philo;
 	
 	sim->philos = malloc(sizeof(t_philo) * info->numbers);
-	sim->threads = malloc(sizeof(pthread_t) * info->numbers);
 	sim->forks = malloc(sizeof(t_sync) * info->numbers);
-	if (sim->philos == NULL || sim->threads == NULL || sim->forks == NULL)
+	sim->childs = malloc(sizeof(t_child) * info->numbers);
+	if (sim->philos == NULL || sim->forks == NULL || sim->childs == NULL)
 		return (FALSE);
 	i = -1;
 	while (++i < info->numbers)
@@ -91,6 +91,7 @@ t_bool	simulator_init(t_simulator *sim, int argc, char *argv[])
 	if (!init_sync(sim))
 		return (FALSE);
 	printer_set(&sim->printer);
+	time_get();
 	return (TRUE);
 }
 
@@ -113,7 +114,7 @@ int		simulator_uninit(t_simulator *sim, int exit_code)
 			sync_uninit(&sim->forks[i], kClose | kDestroy);
 	}
 	free(sim->philos);
-	free(sim->threads);
 	free(sim->forks);
+	free(sim->childs);
 	return (exit_code);
 }
