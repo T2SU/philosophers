@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 20:11:45 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 21:20:28 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ typedef struct s_printer
 	t_sync	sync;
 }			t_printer;
 
-typedef void(*t_philo_died)(struct s_philo *);
-
 typedef struct s_context
 {
 	t_philo			*philo;
@@ -106,7 +104,6 @@ typedef struct s_context
 	t_printer		*printer;
 	t_monitor		*monitor;
 	pthread_t		thread;
-	t_philo_died	on_died;
 }					t_context;
 
 typedef struct s_simulator

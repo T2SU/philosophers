@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   context_thread.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/07 17:50:07 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:57 by smun             ###   ########.fr       */
+/*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
+/*   Updated: 2021/07/09 21:08:03 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
-#include <stdlib.h>
+#include "philo.h"
+#include <unistd.h>
 
-int	main(int argc, char *argv[])
+void	*context_run(void *p_ctx)
 {
-	t_simulator	sim;
+	t_context	*ctx;
 
-	if (!simulator_init(&sim, argc, argv))
-		return (simulator_uninit(&sim, EXIT_FAILURE));
-	context_begin(&sim);
-	context_wait_to_end(&sim);
-	return (simulator_uninit(&sim, EXIT_SUCCESS));
+	ctx = (t_context *)p_ctx;
+	context_update(ctx);
+	if (ctx->philo->state == kDead)
+		monitor_set_state(ctx->monitor, kInterrupted);
+	return (NULL);
 }

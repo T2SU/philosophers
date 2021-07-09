@@ -5,13 +5,18 @@
 #                                                     +:+ +:+         +:+      #
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/07/02 12:26:18 by smun              #+#    #+#              #
-#    Updated: 2021/07/06 16:07:39 by smun             ###   ########.fr        #
+#    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
+#    Updated: 2021/07/09 21:04:45 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+
+# Debug compilation
+ifeq ($(DEBUG),1)
+	CFLAGS += -g
+endif
 
 # Compilation option for Linux
 UNAME_S := $(shell uname -s)
@@ -21,14 +26,16 @@ endif
 
 INC = -I.
 FILES = \
-	main \
-	fork \
-	info \
-	philo_init \
-	philo \
-	utils \
-	thread \
-	print
+	common/main \
+	common/simulator \
+	common/philo \
+	common/philo_life \
+	common/printer \
+	common/context \
+	common/utils \
+	common/monitor \
+	variation/sync_mutex \
+	variation/context_thread
 FILES_SRC = $(addsuffix .c, $(FILES))
 FILES_OBJ = $(FILES_SRC:.c=.o)
 

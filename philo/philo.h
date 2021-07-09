@@ -6,19 +6,18 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/07 16:48:09 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 21:11:21 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
-# include <pthread.h>
 # include <sys/time.h>
+# include <pthread.h>
 # define TRUE 1
 # define FALSE 0
 
-typedef int				t_bool;
-typedef pthread_mutex_t	t_mutex;
+typedef int	t_bool;
 
 enum	e_philo_state
 {
@@ -28,55 +27,154 @@ enum	e_philo_state
 	kDead
 };
 
-typedef struct s_fork
+enum	e_monitor_state
 {
-	t_mutex		mutex;
-	int			unique_id;
-}				t_fork;
+	kNormal,
+	kInterrupted
+};
+
+enum	e_uninit_option
+{
+	kClose = 1 << 0,
+	kDestroy = 1 << 1
+};
+
+enum	e_sync_type
+{
+	kMonitor,
+	kPrinter,
+	kPhilosopher
+};
+
+/*
+** CriticalSection Structures.
+** Defined by each project. (mandatory/bonus)
+*/
+
+typedef struct s_sync
+{
+	pthread_mutex_t	mutex;
+}					t_sync;
+
+/*
+** Logic Structures
+*/
 
 typedef struct s_info
 {
-	t_mutex		mutex;
-	int			died_count;
-	int			numbers;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	t_bool		specified_number_to_eat;
-	int			number_to_eat;
-}				t_info;
+	int		numbers;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	t_bool	specified_number_to_eat;
+	int		number_to_eat;
+}			t_info;
 
 typedef struct s_philo
 {
-	pthread_t	thread;
-	int			unique_id;
-	int			state;
-	int			numbers_had_meal;
-	t_fork		*prioritized_forks[2];
-	time_t		last_meal;
-	time_t		state_end_time;
-	t_info		*info;
-}				t_philo;
+	int		unique_id;
+	t_sync	fork[2];
+	int		state;
+	int		numbers_had_meal;
+	time_t	last_meal;
+	time_t	state_end_time;
+}			t_philo;
+
+typedef struct s_monitor
+{
+	t_sync	sync;
+	int		state;
+}			t_monitor;
+
+typedef struct s_printer
+{
+	t_sync	sync;
+}			t_printer;
+
+typedef struct s_context
+{
+	t_philo			*philo;
+	t_info			*info;
+	t_printer		*printer;
+	t_monitor		*monitor;
+	pthread_t		thread;
+}					t_context;
+
+typedef struct s_simulator
+{
+	t_info		info;
+	t_printer	printer;
+	t_monitor	monitor;
+	t_philo		*philos;
+	t_sync		*forks;
+	t_context	*contexts;
+}				t_simulator;
 
 /*
 ** ============================================================================
-**   [[ fork.c ]]
+**   [[ simulator.c ]]
 ** ============================================================================
 */
 
-t_bool			fork_init(int unique_id, t_fork *fork);
-void			prioritize_forks(int numbers, t_philo *philo, t_fork *forks);
-t_bool			fork_is_same(t_fork *forks[]);
-void			fork_try_to_take(t_fork *fork);
-void			fork_put_down(t_fork *fork);
+t_bool	simulator_init(t_simulator *simulator, int argc, char *argv[]);
+int		simulator_uninit(t_simulator *simulator, int exit_code);
 
 /*
 ** ============================================================================
-**   [[ philo_init.c ]]
+**   [[ sync_[implementation].c ]]  (semaphore/mutex)
 ** ============================================================================
 */
 
-void			philo_init(int unique_id, t_philo *philo, t_info *info);
+t_bool	sync_init(t_sync *sync, const t_info *info, int obj_type);
+void	sync_uninit(t_sync *sync, int option);
+void	sync_lock(t_sync *sync);
+void	sync_unlock(t_sync *sync);
+
+/*
+** ============================================================================
+**   [[ printer.c ]]
+** ============================================================================
+*/
+
+void	printer_set(t_printer *printer);
+void	printer_print(const char *mes);
+void	printer_changed_state(int philo_id, int state, const time_t time);
+void	printer_taken_fork(int philo_id, const time_t time);
+
+/*
+** ============================================================================
+**   [[ monitor.c ]]
+** ============================================================================
+*/
+
+int		monitor_get_state(t_monitor *mon);
+void	monitor_set_state(t_monitor *mon, int state);
+
+/*
+** ============================================================================
+**   [[ context.c ]]
+** ============================================================================
+*/
+
+void	context_update(t_context *ctx);
+void	context_begin(t_simulator *sim);
+void	context_wait_to_end(t_simulator *sim);
+
+/*
+** ============================================================================
+**   [[ context_[implementation].c ]] (process/thread)
+** ============================================================================
+*/
+
+void	*context_run(void *p_ctx);
+
+/*
+** ============================================================================
+**   [[ philo_life.c ]]
+** ============================================================================
+*/
+
+void	philo_update_survive(t_philo *philo, t_context *ctx, const time_t time);
 
 /*
 ** ============================================================================
@@ -84,16 +182,9 @@ void			philo_init(int unique_id, t_philo *philo, t_info *info);
 ** ============================================================================
 */
 
-void			philo_update(t_philo *philo);
-
-/*
-** ============================================================================
-**   [[ thread.c ]]
-** ============================================================================
-*/
-
-void			thread_philosophers_begin(t_philo *philos, int numbers);
-void			thread_philosophers_join(t_philo *philos, int numbers);
+void	philo_change_state(t_philo *philo, int state, time_t time);
+void	philo_drop_the_forks(t_philo *philo);
+void	philo_update_state(t_philo *philo, t_context *ctx, const time_t time);
 
 /*
 ** ============================================================================
@@ -101,28 +192,7 @@ void			thread_philosophers_join(t_philo *philos, int numbers);
 ** ============================================================================
 */
 
-time_t			time_get(void);
-t_bool			ft_atoi_strict(const char *str, int *pvalue);
-
-/*
-** ============================================================================
-**   [[ info.c ]]
-** ============================================================================
-*/
-
-t_bool			info_parse_details(t_info *info, int argc, char *argv[]);
-void			info_increase_died_count(t_info *info);
-int				info_get_died_count(t_info *info);
-
-/*
-** ============================================================================
-**   [[ print.c ]]
-** ============================================================================
-*/
-
-t_bool			print_init(void);
-void			print_state(int unique_id, int state, const time_t time);
-void			print_fork(int unique_id, const time_t time);
-void			print_close(void);
+time_t	time_get(void);
+t_bool	ft_atoi_strict(const char *str, int *pvalue);
 
 #endif

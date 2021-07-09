@@ -6,11 +6,11 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 18:36:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:52 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 21:18:50 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 
 static t_bool	is_starved(t_philo *philo, t_context *ctx, const time_t time)
 {

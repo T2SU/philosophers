@@ -1,2 +1,4 @@
-*.o
 philo
+*.o
+a.out
+*.dSYM

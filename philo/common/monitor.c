@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/07 17:50:07 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:57 by smun             ###   ########.fr       */
+/*   Created: 2021/07/07 19:16:09 by smun              #+#    #+#             */
+/*   Updated: 2021/07/09 21:18:53 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
-#include <stdlib.h>
+#include "philo.h"
 
-int	main(int argc, char *argv[])
+int		monitor_get_state(t_monitor *mon)
 {
-	t_simulator	sim;
+	int	ret;
 
-	if (!simulator_init(&sim, argc, argv))
-		return (simulator_uninit(&sim, EXIT_FAILURE));
-	context_begin(&sim);
-	context_wait_to_end(&sim);
-	return (simulator_uninit(&sim, EXIT_SUCCESS));
+	sync_lock(&mon->sync);
+	ret = mon->state;
+	sync_unlock(&mon->sync);
+	return (ret);
+}
+
+void	monitor_set_state(t_monitor *mon, int state)
+{
+	sync_lock(&mon->sync);
+	mon->state = state;
+	sync_unlock(&mon->sync);
 }
