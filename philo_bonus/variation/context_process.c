@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:40 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 22:24:47 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <stdio.h>
+
+static int	is_abnormal_exit(int wstatus)
+{
+	return (wstatus != 0);
+}
 
 static void	wait_for_child_process(t_context *ctx, pid_t pid)
 {
@@ -28,16 +34,20 @@ static void	wait_for_child_process(t_context *ctx, pid_t pid)
 		process_status = waitpid(pid, &status, WNOHANG);
 		if (process_status == 0)
 			continue ;
-		if (status != 0)
+		if (is_abnormal_exit(status))
+		{
 			monitor_set_state(ctx->monitor, kInterrupted);
+			kill(pid, SIGKILL);
+		}
+		break ;
 	}
-	kill(pid, SIGKILL);
 }
 
 void	*context_run(void *p_ctx)
 {
 	pid_t		pid;
 	t_context	*ctx;
+	int			exit_status;
 
 	ctx = (t_context *)p_ctx;
 	pid = fork();
@@ -49,10 +59,10 @@ void	*context_run(void *p_ctx)
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	context_update(ctx);
+	exit_status = monitor_get_state(ctx->monitor) == kInterrupted;
 	sync_uninit(&ctx->monitor->sync, kClose);
 	sync_uninit(&ctx->printer->sync, kClose);
 	sync_uninit(&ctx->philo->fork[0], kClose);
-	if (monitor_get_state(ctx->monitor) == kInterrupted)
-		exit(EXIT_FAILURE);
+	exit(exit_status);
 	return (NULL);
 }
