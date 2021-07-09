@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 22:56:46 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/10 01:16:14 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
-#include <sys/types.h>
 #include <signal.h>
 
 static int	is_abnormal_exit(int wstatus)
