@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/08 23:59:39 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 20:11:45 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,17 @@ typedef struct s_printer
 	t_sync	sync;
 }			t_printer;
 
-typedef struct s_child
+typedef void(*t_philo_died)(struct s_philo *);
+
+typedef struct s_context
 {
-	t_philo		*philo;
-	t_info		*info;
-	t_printer	*printer;
-	t_monitor	*monitor;
-	pthread_t	thread;
-}				t_child;
+	t_philo			*philo;
+	t_info			*info;
+	t_printer		*printer;
+	t_monitor		*monitor;
+	pthread_t		thread;
+	t_philo_died	on_died;
+}					t_context;
 
 typedef struct s_simulator
 {
@@ -113,7 +116,7 @@ typedef struct s_simulator
 	t_monitor	monitor;
 	t_philo		*philos;
 	t_sync		*forks;
-	t_child		*childs;
+	t_context	*contexts;
 }				t_simulator;
 
 /*
@@ -158,21 +161,29 @@ void	monitor_set_state(t_monitor *mon, int state);
 
 /*
 ** ============================================================================
-**   [[ child.c ]]
+**   [[ context.c ]]
 ** ============================================================================
 */
 
-void	child_update(t_child *child);
-void	child_begin(t_simulator *sim);
-void	child_wait_to_end(t_simulator *sim);
+void	context_update(t_context *ctx);
+void	context_begin(t_simulator *sim);
+void	context_wait_to_end(t_simulator *sim);
 
 /*
 ** ============================================================================
-**   [[ child_[implementation].c ]] (process/thread)
+**   [[ context_[implementation].c ]] (process/thread)
 ** ============================================================================
 */
 
-void	*child_run(void *p_child);
+void	*context_run(void *p_ctx);
+
+/*
+** ============================================================================
+**   [[ philo_life.c ]]
+** ============================================================================
+*/
+
+void	philo_update_survive(t_philo *philo, t_context *ctx, const time_t time);
 
 /*
 ** ============================================================================
@@ -180,7 +191,9 @@ void	*child_run(void *p_child);
 ** ============================================================================
 */
 
-void	philo_update(t_philo *philo, t_child *child);
+void	philo_change_state(t_philo *philo, int state, time_t time);
+void	philo_drop_the_forks(t_philo *philo);
+void	philo_update_state(t_philo *philo, t_context *ctx, const time_t time);
 
 /*
 ** ============================================================================

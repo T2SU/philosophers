@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
-#    Updated: 2021/07/09 00:14:04 by smun             ###   ########.fr        #
+#    Updated: 2021/07/09 19:40:30 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,13 @@ FILES = \
 	common/main \
 	common/simulator \
 	common/philo \
+	common/philo_life \
 	common/printer \
-	common/child \
+	common/context \
 	common/utils \
 	common/monitor \
-	sync_semaphore \
-	child_process
+	variation/sync_semaphore \
+	variation/context_process
 FILES_SRC = $(addsuffix .c, $(FILES))
 FILES_OBJ = $(FILES_SRC:.c=.o)
 
@@ -56,4 +57,4 @@ re : fclean all
 $(NAME) : $(FILES_OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
 
-.PHONY: all clean fclean re $(NAME) debug
+.PHONY: all clean fclean re $(NAME)

@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   semaphore.c                                        :+:      :+:    :+:   */
+/*   philo_life.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/07 14:48:52 by smun              #+#    #+#             */
-/*   Updated: 2021/07/07 15:15:29 by smun             ###   ########.fr       */
+/*   Created: 2021/07/09 18:36:05 by smun              #+#    #+#             */
+/*   Updated: 2021/07/09 20:55:24 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-#include <semaphore.h>
-#include <fcntl.h>
-#include <stdlib.h>
 
-t_bool	semaphore_init(sem_t **psem, const char *name, int post_num)
+static t_bool	is_starved(t_philo *philo, t_context *ctx, const time_t time)
 {
-	sem_t	*sem;
-
-	sem = sem_open(name, O_CREAT, 0644);
-	if (sem == NULL)
-		return (FALSE);
-	while (post_num-- > 0)
-		if (!sem_post(sem))
-			return (FALSE);	
-	*psem = sem;
-	return (TRUE);
+	return (philo->last_meal + ctx->info->time_to_die < time);
 }
 
-void	semaphore_close(sem_t *sem)
+void	philo_update_survive(t_philo *philo, t_context *ctx, const time_t time)
 {
-	sem_close(sem);
-}
-
-void	semaphore_uninit(const char *name)
-{
-	sem_unlink(name);
+	if (is_starved(philo, ctx, time))
+	{
+		philo_drop_the_forks(philo);
+		philo_change_state(philo, kDead, time);
+	}
 }

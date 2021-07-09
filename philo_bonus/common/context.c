@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child.c                                            :+:      :+:    :+:   */
+/*   context.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/08 23:55:33 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 19:37:47 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,52 @@
 #include <pthread.h>
 #include <unistd.h>
 
-void	child_update(t_child *child)
+void	context_update(t_context *ctx)
 {
 	t_philo	*philo;
+	time_t	time;
 
-	philo = child->philo;
-	while (philo->state != kDead)
+	philo = ctx->philo;
+	while (TRUE)
 	{
-		philo_update(philo, child);
-		if (child->info->specified_number_to_eat)
-			if (philo->numbers_had_meal >= child->info->number_to_eat)
+		time = time_get();
+		philo_update_survive(philo, ctx, time);
+		if (philo->state == kDead)
+			break ;
+		philo_update_state(philo, ctx, time);
+		if (ctx->info->specified_number_to_eat)
+			if (philo->numbers_had_meal >= ctx->info->number_to_eat)
 				break ;
 		usleep(250);
 	}
 }
 
-void	child_begin(t_simulator *sim)
+void	context_begin(t_simulator *sim)
 {
-	int		i;
-	t_child	*child;
+	int			i;
+	t_context	*ctx;
 	
 	i = 0;
 	while (i < sim->info.numbers)
 	{
-		child = &sim->childs[i];
-		child->info = &sim->info;
-		child->monitor = &sim->monitor;
-		child->printer = &sim->printer;
-		child->philo = &sim->philos[i];
-		pthread_create(&child->thread, NULL, &child_run, child);
+		ctx = &sim->contexts[i];
+		ctx->info = &sim->info;
+		ctx->monitor = &sim->monitor;
+		ctx->printer = &sim->printer;
+		ctx->philo = &sim->philos[i];
+		pthread_create(&ctx->thread, NULL, &context_run, ctx);
 		i++;
 	}
 }
 
-void	child_wait_to_end(t_simulator *sim)
+void	context_wait_to_end(t_simulator *sim)
 {
 	int		i;
 	
 	i = 0;
 	while (i < sim->info.numbers)
 	{
-		pthread_join(sim->childs[i].thread, NULL);
+		pthread_join(sim->contexts[i].thread, NULL);
 		i++;
 	}
 }
