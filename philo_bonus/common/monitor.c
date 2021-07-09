@@ -6,13 +6,13 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 19:16:09 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:55 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 21:50:14 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int		monitor_get_state(t_monitor *mon)
+int	monitor_get_state(t_monitor *mon)
 {
 	int	ret;
 

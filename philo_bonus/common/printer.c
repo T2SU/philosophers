@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:50:54 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:47 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 21:50:17 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	printer_set(t_printer *printer)
 void	printer_print(const char *mes)
 {
 	t_printer	*printer;
-	
+
 	printer = *get_printer();
 	sync_lock(&printer->sync);
 	printf(mes);
@@ -38,7 +38,7 @@ void	printer_print(const char *mes)
 void	printer_changed_state(int philo_id, int state, const time_t time)
 {
 	t_printer	*printer;
-	
+
 	printer = *get_printer();
 	sync_lock(&printer->sync);
 	if (state == kEating)
@@ -55,7 +55,7 @@ void	printer_changed_state(int philo_id, int state, const time_t time)
 void	printer_taken_fork(int philo_id, const time_t time)
 {
 	t_printer	*printer;
-	
+
 	printer = *get_printer();
 	sync_lock(&printer->sync);
 	printf("%ld %d has taken a fork\n", time, philo_id);

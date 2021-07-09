@@ -6,11 +6,11 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:59 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 21:49:21 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 #include <pthread.h>
 #include <unistd.h>
 
@@ -38,7 +38,7 @@ void	context_begin(t_simulator *sim)
 {
 	int			i;
 	t_context	*ctx;
-	
+
 	i = 0;
 	while (i < sim->info.numbers)
 	{
@@ -55,7 +55,7 @@ void	context_begin(t_simulator *sim)
 void	context_wait_to_end(t_simulator *sim)
 {
 	int		i;
-	
+
 	i = 0;
 	while (i < sim->info.numbers)
 	{

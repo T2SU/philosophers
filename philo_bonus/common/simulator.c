@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:32:50 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 21:50:20 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_bool	init_logic_objects(t_simulator *sim)
 	const t_info	*info = &sim->info;
 	int				i;
 	t_philo			*philo;
-	
+
 	sim->philos = malloc(sizeof(t_philo) * info->numbers);
 	sim->forks = malloc(sizeof(t_sync) * info->numbers);
 	sim->contexts = malloc(sizeof(t_context) * info->numbers);
@@ -100,7 +100,7 @@ t_bool	simulator_init(t_simulator *sim, int argc, char *argv[])
 	return (TRUE);
 }
 
-int		simulator_uninit(t_simulator *sim, int exit_code)
+int	simulator_uninit(t_simulator *sim, int exit_code)
 {
 	int	i;
 
