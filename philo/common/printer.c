@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:50:54 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:49:43 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 22:35:21 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	printer_print(const char *mes)
 
 	printer = *get_printer();
 	sync_lock(&printer->sync);
-	printf(mes);
+	printf("%s", mes);
 	sync_unlock(&printer->sync);
 }
 
