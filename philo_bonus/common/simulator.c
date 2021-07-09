@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:44 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/09 21:32:50 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,16 @@ static t_bool	init_sync(t_simulator *sim)
 	i = -1;
 	while (++i < info->numbers)
 	{
-		sim->philos[i].fork[0] = sim->forks[(i + 0) % info->numbers];
-		sim->philos[i].fork[1] = sim->forks[(i + 1) % info->numbers];
+		if ((i & 1) == 0)
+		{
+			sim->philos[i].fork[0] = sim->forks[(i + 0) % info->numbers];
+			sim->philos[i].fork[1] = sim->forks[(i + 1) % info->numbers];
+		}
+		else
+		{
+			sim->philos[i].fork[1] = sim->forks[(i + 0) % info->numbers];
+			sim->philos[i].fork[0] = sim->forks[(i + 1) % info->numbers];
+		}
 	}
 	return (TRUE);
 }
