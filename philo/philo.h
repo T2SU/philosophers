@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:11:21 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/10 18:24:25 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ enum	e_sync_type
 typedef struct s_sync
 {
 	pthread_mutex_t	mutex;
+	int				mutex_num;
 }					t_sync;
 
 /*
