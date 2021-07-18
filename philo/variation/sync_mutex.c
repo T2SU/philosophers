@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:20:28 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 17:45:07 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/18 21:31:56 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ t_bool	sync_init(t_sync *sync)
 	return (TRUE);
 }
 
-void	sync_uninit(t_sync *sync, int option)
+void	sync_uninit(t_sync *sync)
 {
-	if ((option & kDestroy))
-		pthread_mutex_destroy(&sync->mutex);
+	pthread_mutex_destroy(&sync->mutex);
 }
 
 void	sync_lock(t_sync *sync)

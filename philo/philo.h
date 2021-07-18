@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 18:39:03 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/18 21:32:21 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ enum	e_monitor_state
 {
 	kNormal,
 	kInterrupted
-};
-
-enum	e_uninit_option
-{
-	kClose = 1 << 0,
-	kDestroy = 1 << 1
 };
 
 enum	e_sync_type
@@ -134,7 +128,7 @@ int		simulator_uninit(t_simulator *simulator, int exit_code);
 */
 
 t_bool	sync_init(t_sync *sync);
-void	sync_uninit(t_sync *sync, int option);
+void	sync_uninit(t_sync *sync);
 void	sync_lock(t_sync *sync);
 void	sync_unlock(t_sync *sync);
 

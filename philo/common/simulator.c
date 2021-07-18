@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 18:41:28 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/18 21:32:06 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,13 @@ int	simulator_uninit(t_simulator *sim, int exit_code)
 		while (++i < sim->info.numbers)
 			sim->philos[i].state = kDead;
 	}
-	sync_uninit(&sim->monitor.sync, kClose | kDestroy);
-	sync_uninit(&sim->printer.sync, kClose | kDestroy);
+	sync_uninit(&sim->monitor.sync);
+	sync_uninit(&sim->printer.sync);
 	if (sim->forks != NULL)
 	{
 		i = -1;
 		while (++i < sim->info.numbers)
-			sync_uninit(&sim->forks[i].sync, kClose | kDestroy);
+			sync_uninit(&sim->forks[i].sync);
 	}
 	free(sim->philos);
 	free(sim->forks);
