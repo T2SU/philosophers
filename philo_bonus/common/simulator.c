@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:50:20 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/18 19:21:29 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,28 +37,13 @@ static t_bool	parse_details(t_info *info, int argc, char *argv[])
 static t_bool	init_sync(t_simulator *sim)
 {
 	const t_info	*info = &sim->info;
-	int				i;
 
 	if (!sync_init(&sim->monitor.sync, info, kMonitor))
 		return (FALSE);
 	if (!sync_init(&sim->printer.sync, info, kPrinter))
 		return (FALSE);
-	if (!sync_init(sim->forks, info, kPhilosopher))
+	if (!sync_init(&sim->table, info, kPhilosopher))
 		return (FALSE);
-	i = -1;
-	while (++i < info->numbers)
-	{
-		if ((i & 1) == 0)
-		{
-			sim->philos[i].fork[0] = sim->forks[(i + 0) % info->numbers];
-			sim->philos[i].fork[1] = sim->forks[(i + 1) % info->numbers];
-		}
-		else
-		{
-			sim->philos[i].fork[1] = sim->forks[(i + 0) % info->numbers];
-			sim->philos[i].fork[0] = sim->forks[(i + 1) % info->numbers];
-		}
-	}
 	return (TRUE);
 }
 
@@ -69,9 +54,8 @@ static t_bool	init_logic_objects(t_simulator *sim)
 	t_philo			*philo;
 
 	sim->philos = malloc(sizeof(t_philo) * info->numbers);
-	sim->forks = malloc(sizeof(t_sync) * info->numbers);
 	sim->contexts = malloc(sizeof(t_context) * info->numbers);
-	if (sim->philos == NULL || sim->forks == NULL || sim->contexts == NULL)
+	if (sim->philos == NULL || sim->contexts == NULL)
 		return (FALSE);
 	i = -1;
 	while (++i < info->numbers)
@@ -80,6 +64,7 @@ static t_bool	init_logic_objects(t_simulator *sim)
 		memset(philo, 0, sizeof(t_philo));
 		philo->state = kThinking;
 		philo->unique_id = i + 1;
+		philo->table = &sim->table;
 		philo->last_meal = time_get();
 		philo->state_end_time = time_get();
 	}
@@ -112,14 +97,8 @@ int	simulator_uninit(t_simulator *sim, int exit_code)
 	}
 	sync_uninit(&sim->monitor.sync, kClose | kDestroy);
 	sync_uninit(&sim->printer.sync, kClose | kDestroy);
-	if (sim->forks != NULL)
-	{
-		i = -1;
-		while (++i < sim->info.numbers)
-			sync_uninit(&sim->forks[i], kClose | kDestroy);
-	}
+	sync_uninit(&sim->table, kClose | kDestroy);
 	free(sim->philos);
-	free(sim->forks);
 	free(sim->contexts);
 	return (exit_code);
 }

@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
-#    Updated: 2021/07/09 21:04:45 by smun             ###   ########.fr        #
+#    Updated: 2021/07/18 17:45:26 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ FILES = \
 	common/context \
 	common/utils \
 	common/monitor \
+	variation/philo_forks \
 	variation/sync_mutex \
 	variation/context_thread
 FILES_SRC = $(addsuffix .c, $(FILES))

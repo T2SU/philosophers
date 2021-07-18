@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/10 01:16:14 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/18 19:05:29 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	*context_run(void *p_ctx)
 	exit_status = monitor_get_state(ctx->monitor) == kInterrupted;
 	sync_uninit(&ctx->monitor->sync, kClose);
 	sync_uninit(&ctx->printer->sync, kClose);
-	sync_uninit(&ctx->philo->fork[0], kClose);
+	sync_uninit(ctx->table, kClose);
 	exit(exit_status);
 	return (NULL);
 }

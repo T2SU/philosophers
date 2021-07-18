@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:28 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/18 19:03:14 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_info
 typedef struct s_philo
 {
 	int		unique_id;
-	t_sync	fork[2];
+	t_sync	*table;
 	int		state;
 	int		numbers_had_meal;
 	time_t	last_meal;
@@ -100,6 +100,7 @@ typedef struct s_printer
 typedef struct s_context
 {
 	t_philo			*philo;
+	t_sync			*table;
 	t_info			*info;
 	t_printer		*printer;
 	t_monitor		*monitor;
@@ -112,7 +113,7 @@ typedef struct s_simulator
 	t_printer	printer;
 	t_monitor	monitor;
 	t_philo		*philos;
-	t_sync		*forks;
+	t_sync		table;
 	t_context	*contexts;
 }				t_simulator;
 

@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/10 18:24:25 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/18 18:39:03 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,14 @@ enum	e_sync_type
 typedef struct s_sync
 {
 	pthread_mutex_t	mutex;
-	int				mutex_num;
 }					t_sync;
+
+typedef struct s_fork
+{	
+	t_sync	sync;
+	int		counter;
+	t_bool	using;
+}			t_fork;
 
 /*
 ** Logic Structures
@@ -74,8 +80,9 @@ typedef struct s_info
 typedef struct s_philo
 {
 	int		unique_id;
-	t_sync	fork[2];
+	t_fork	*fork[2];
 	int		state;
+	int		taken;
 	int		numbers_had_meal;
 	time_t	last_meal;
 	time_t	state_end_time;
@@ -107,7 +114,7 @@ typedef struct s_simulator
 	t_printer	printer;
 	t_monitor	monitor;
 	t_philo		*philos;
-	t_sync		*forks;
+	t_fork		*forks;
 	t_context	*contexts;
 }				t_simulator;
 
@@ -126,7 +133,7 @@ int		simulator_uninit(t_simulator *simulator, int exit_code);
 ** ============================================================================
 */
 
-t_bool	sync_init(t_sync *sync, const t_info *info, int obj_type);
+t_bool	sync_init(t_sync *sync);
 void	sync_uninit(t_sync *sync, int option);
 void	sync_lock(t_sync *sync);
 void	sync_unlock(t_sync *sync);
@@ -176,6 +183,15 @@ void	*context_run(void *p_ctx);
 */
 
 void	philo_update_survive(t_philo *philo, t_context *ctx, const time_t time);
+
+/*
+** ============================================================================
+**   [[ philo_forks.c ]]
+** ============================================================================
+*/
+
+t_bool	philo_forks_try_take(t_philo *philo);
+void	philo_forks_put_down(t_philo *philo);
 
 /*
 ** ============================================================================

@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 22:08:19 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/18 19:20:24 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	context_begin(t_simulator *sim)
 		ctx->monitor = &sim->monitor;
 		ctx->printer = &sim->printer;
 		ctx->philo = &sim->philos[i];
+		ctx->table = &sim->table;
 		pthread_create(&ctx->thread, NULL, &context_run, ctx);
 		i++;
 	}
