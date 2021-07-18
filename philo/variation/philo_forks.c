@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 19:29:40 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 18:39:38 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/18 19:23:09 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_bool	try_take(t_philo *philo)
 	return (TRUE);
 }
 
-t_bool		philo_forks_try_take(t_philo *philo)
+t_bool	philo_forks_try_take(t_philo *philo)
 {
 	t_bool	success;
 
