@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 19:29:40 by smun              #+#    #+#             */
-/*   Updated: 2021/07/20 17:43:40 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/20 19:32:46 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ t_bool	philo_forks_try_take(t_philo *philo)
 {
 	t_bool	success;
 
+	if (philo->fork[0] == philo->fork[1])
+		return (FALSE);
 	sync_lock(&philo->fork[0]->sync);
 	sync_lock(&philo->fork[1]->sync);
 	success = try_take(philo);
