@@ -77,13 +77,13 @@ static t_bool	try_take(t_philo *philo)
 {
 	if (philo->fork[0]->using || philo->fork[1]->using)
 		return (FALSE);
-	if (philo->taken > philo->fork[0]->counter / 2)
+	/*if (philo->taken > philo->fork[0]->counter / 2)
 		return (FALSE);
 	if (philo->taken > philo->fork[1]->counter / 2)
 		return (FALSE);
 	(philo->taken)++;
 	(philo->fork[0]->counter)++;
-	(philo->fork[1]->counter)++;
+	(philo->fork[1]->counter)++;*/
 	(philo->fork[0]->using) = TRUE;
 	(philo->fork[1]->using) = TRUE;
 	return (TRUE);
