@@ -36,6 +36,21 @@ static t_bool	parse_details(t_info *info, int argc, char *argv[])
 
 /*
 ** ref: https://en.wikipedia.org/wiki/Dining_philosophers_problem
+**
+** Sync types:
+**   1. Monitor
+**   2. Printer
+**   3. Fork
+**
+** - Monitor synchronization
+**     Guard the setting/getting the simulator state.
+**     when simulator has interrupted state, the simulation will be end.
+**
+** - Printer synchronization
+**     Guard the print to stdout for no scrambled or intertwined.
+**
+** - Fork synchronization
+**     Guard the using state or picked count of each forks.
 */
 
 static t_bool	init_sync(t_simulator *sim)

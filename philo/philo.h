@@ -33,13 +33,6 @@ enum	e_monitor_state
 	kInterrupted
 };
 
-enum	e_sync_type
-{
-	kMonitor,
-	kPrinter,
-	kPhilosopher
-};
-
 /*
 ** CriticalSection Structures.
 ** Defined by each project. (mandatory/bonus)
