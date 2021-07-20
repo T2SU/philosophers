@@ -6,13 +6,22 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:20:28 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 19:05:05 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/20 18:20:33 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 #include <semaphore.h>
 #include <fcntl.h>
+
+/*
+** ref: https://whatis.techtarget.com/definition/semaphore
+**
+** Semaphore)
+**   Semaphore is also one of the solutions that can make critical section.
+**
+**   Semaphore can be binary or can have integer value like variable.
+*/
 
 static void	assign_sync_info(t_sync *sync, const t_info *info, int sync_type)
 {
@@ -38,6 +47,10 @@ static void	assign_sync_info(t_sync *sync, const t_info *info, int sync_type)
 	}
 }
 
+/*
+**  'sem_open' initialize and open a named semaphore. (BSD man page)
+*/
+
 t_bool	sync_init(t_sync *sync, const t_info *info, int sync_type)
 {
 	assign_sync_info(&sync[0], info, sync_type);
@@ -50,6 +63,16 @@ t_bool	sync_init(t_sync *sync, const t_info *info, int sync_type)
 	return (TRUE);
 }
 
+/*
+**  'sem_close' will close the semaphore only in current process.
+**  It semaphore can be still used in another processes.
+**
+**  'sem_unlink' will DESTROY(=REMOVE) the named semaphore in the whole system.
+**  If that semaphore is in used another process,
+**  disassociate it in all using process immediately.
+**  Then, it cannot be accessed by all processes.
+*/
+
 void	sync_uninit(t_sync *sync, int option)
 {
 	if ((option & kClose))
@@ -59,6 +82,15 @@ void	sync_uninit(t_sync *sync, int option)
 		if (sync->name != NULL)
 			sem_unlink(sync->name);
 }
+
+/*
+**  'sem_wait' do decrease semaphore's value. (value--)
+**  if semaphore value is already zero,
+**  thread will be blocked until it semaphore has positive value.
+**
+**  'sem_post' do increase semaphore's value. (value++)
+**  and if there is a thread that waits by 'sem_wait', resumes it.
+*/
 
 void	sync_lock(t_sync *sync)
 {

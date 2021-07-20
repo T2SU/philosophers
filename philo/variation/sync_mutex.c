@@ -6,12 +6,22 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:20:28 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 21:31:56 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/20 18:08:55 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
+
+/*
+** Mutual exclusion (Mut-ex) and critical section.
+** Mutex is a locking mechanism.
+**   In an environment where multiple threads executes concurrently,
+**   a 'critical section' ensures that no other threads within that zone
+**   affect with execution.
+**
+**   Mut-ex is one of the solutions that can make critical section.
+*/
 
 t_bool	sync_init(t_sync *sync)
 {
