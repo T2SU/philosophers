@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 18:36:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 22:42:25 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/20 17:38:54 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@ static t_bool	is_starved(t_philo *philo, t_context *ctx, const time_t time)
 {
 	return (philo->last_meal + ctx->info->time_to_die < time);
 }
+
+/*
+** When philosopher is starved, kill him and set monitor state to interrupted.
+**
+** In other philosopher thread, check the monitor state and if it has
+** interrupted state, then also kill him to end simulation. (without died msg)
+*/
 
 void	philo_update_survive(t_philo *philo, t_context *ctx, const time_t time)
 {

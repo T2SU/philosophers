@@ -6,13 +6,25 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 22:42:25 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/20 17:36:48 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
 #include <unistd.h>
+
+/*
+** First, Update philosopher's life.
+**  If philosopher is on starved, set his state to died. (philo_update_survive)
+**
+** Then, Update philosopher's state.
+**  Process logics by his each state.
+**
+** Finally, Check philosopher's meal times.
+**  When it reached number to eat from program's argument,
+**  finish philosopher's simulation thread.
+*/
 
 void	context_update(t_context *ctx)
 {
@@ -34,6 +46,13 @@ void	context_update(t_context *ctx)
 	}
 }
 
+/*
+**    ref: https://en.wikipedia.org/wiki/Thread_(computing)
+**  Thread is the smallest execution unit which is managed by scheduler in OS.
+**  The multiple threads of a given process may be executed concurrently.
+**  We use 'pthread_create' system function to create new thread.
+*/
+
 void	context_begin(t_simulator *sim)
 {
 	int			i;
@@ -51,6 +70,14 @@ void	context_begin(t_simulator *sim)
 		i++;
 	}
 }
+
+/*
+** We use 'pthread_join' system function to finish the thread gracefully.
+** It will clean up its thread context space. or else it may cause some leaks.
+**
+** It can be replaced by 'pthread_deatch' if it's not necessary to wait to end,
+** for cleaning up thread context.
+*/
 
 void	context_wait_to_end(t_simulator *sim)
 {

@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 21:32:06 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/20 17:44:33 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ static t_bool	parse_details(t_info *info, int argc, char *argv[])
 		return (FALSE);
 	return (TRUE);
 }
+
+/*
+** ref: https://en.wikipedia.org/wiki/Dining_philosophers_problem
+*/
 
 static t_bool	init_sync(t_simulator *sim)
 {

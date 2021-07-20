@@ -6,14 +6,14 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 19:29:40 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 19:23:09 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/20 17:43:40 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-** Distribution forks by referenced counter.
+** Distribution forks by referenced counter. (Arbitrator solution)
 ** This ensures that the philosophers next to each fork take turns picking up.
 **   - Pickable = PhilosopherCounter <= ForkCounter / 2
 **
@@ -24,7 +24,7 @@
 **
 ** Round-1     1             1             1            0             0
 **   ------------------------------------------------------------------------
-**	   - Philo-1: forks[0] = Fork-5, forks[1] = Fork-1 
+**	   - Philo-1: forks[0] = Fork-5, forks[1] = Fork-1
 **     >>  Fork-5:(Fork-5 Counter / 2 >= Philo-1 Counter?)
 **     >>          = (0 / 2 >= 0)
 **     >>          = TRUE
