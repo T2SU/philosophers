@@ -53,6 +53,17 @@ static t_bool	parse_details(t_info *info, int argc, char *argv[])
 **     Guard the using state or picked count of each forks.
 */
 
+/*
+** - Asymmetric solutions.
+**    (https://osf.io/kbyhq)
+**
+** Using asymmetric solutions, namely philosophers in odd numbers 
+** took a left chopstick first and right chopsticks. 
+**
+** While sitting on a chair philosopher 
+** even take the right chopstick first, and chopsticks left.
+*/
+
 static t_bool	init_sync(t_simulator *sim)
 {
 	const t_info	*info = &sim->info;
