@@ -46,6 +46,7 @@ all : $(NAME)
 
 clean :
 	rm -rf $(FILES_OBJ)
+	rm -rf $(NAME).dSYM
 
 fclean : clean
 	rm -rf $(NAME)
