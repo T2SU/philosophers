@@ -29,7 +29,7 @@ static t_bool	parse_details(t_info *info, int argc, char *argv[])
 		return (FALSE);
 	if (!ft_atoi_strict(argv[1], &info->numbers))
 		return (FALSE);
-	if (info->numbers < 0)
+	if (info->numbers <= 0)
 		return (FALSE);
 	return (TRUE);
 }

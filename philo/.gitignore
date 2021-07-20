@@ -2,3 +2,4 @@ philo
 *.o
 a.out
 *.dSYM
+*.swp
