@@ -6,13 +6,26 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 14:06:39 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 21:20:42 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:17:04 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 #include <sys/time.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+int		raise_error(const char *msg)
+{
+	int	len;
+
+	len = 0;
+	while (msg[len] != '\0')
+		len++;
+	write(STDERR_FILENO, msg, len);
+	write(STDERR_FILENO, "\n", 1);
+	return (FALSE);
+}
 
 time_t	time_get(void)
 {

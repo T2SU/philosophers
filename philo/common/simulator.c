@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/20 17:44:33 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:30:52 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,28 @@
 static t_bool	parse_details(t_info *info, int argc, char *argv[])
 {
 	if (argc < 5 || argc > 6)
-		return (FALSE);
+		return (raise_error("Invalid arguments number"));
 	info->specified_number_to_eat = (argc == 6);
 	if (argc == 6 && !ft_atoi_strict(argv[5], &info->number_to_eat))
-		return (FALSE);
+		return (raise_error("Failed to parsing 'number_to_eat'"));
 	if (!ft_atoi_strict(argv[4], &info->time_to_sleep))
-		return (FALSE);
+		return (raise_error("Failed to parsing 'time_to_sleep'"));
 	if (!ft_atoi_strict(argv[3], &info->time_to_eat))
-		return (FALSE);
+		return (raise_error("Failed to parsing 'time_to_eat'"));
 	if (!ft_atoi_strict(argv[2], &info->time_to_die))
-		return (FALSE);
+		return (raise_error("Failed to parsing 'time_to_die'"));
 	if (!ft_atoi_strict(argv[1], &info->numbers))
-		return (FALSE);
+		return (raise_error("Failed to parsing 'numbers'"));
+	if (info->number_to_eat < 0)
+		return (raise_error("'number_to_eat' must be positive number."));
+	if (info->time_to_sleep < 0)
+		return (raise_error("'time_to_sleep' must be positive number."));
+	if (info->time_to_eat < 0)
+		return (raise_error("'time_to_eat' must be positive number."));
+	if (info->time_to_die < 0)
+		return (raise_error("'time_to_die' must be positive number."));
 	if (info->numbers <= 0)
-		return (FALSE);
+		return (raise_error("Numbers must be positive number."));
 	return (TRUE);
 }
 
@@ -57,10 +65,10 @@ static t_bool	parse_details(t_info *info, int argc, char *argv[])
 ** - Asymmetric solutions.
 **    (https://osf.io/kbyhq)
 **
-** Using asymmetric solutions, namely philosophers in odd numbers 
-** took a left chopstick first and right chopsticks. 
+** Using asymmetric solutions, namely philosophers in odd numbers
+** took a left chopstick first and right chopsticks.
 **
-** While sitting on a chair philosopher 
+** While sitting on a chair philosopher
 ** even take the right chopstick first, and chopsticks left.
 */
 
@@ -70,14 +78,14 @@ static t_bool	init_sync(t_simulator *sim)
 	int				i;
 
 	if (!sync_init(&sim->monitor.sync))
-		return (FALSE);
+		return (raise_error("Failed to init 'Monitor' sync"));
 	if (!sync_init(&sim->printer.sync))
-		return (FALSE);
+		return (raise_error("Failed to init 'Printer' sync"));
 	i = -1;
 	while (++i < info->numbers)
 	{
 		if (!sync_init(&sim->forks[i].sync))
-			return (FALSE);
+			return (raise_error("Failed to init 'Philosopher' sync"));
 		if ((i & 1) == 0)
 		{
 			sim->philos[i].fork[0] = &sim->forks[(i + 0) % info->numbers];
@@ -103,7 +111,7 @@ static t_bool	init_logic_objects(t_simulator *sim)
 	sim->forks = malloc(sizeof(t_fork) * info->numbers);
 	sim->contexts = malloc(sizeof(t_context) * info->numbers);
 	if (sim->philos == NULL || sim->forks == NULL || sim->contexts == NULL)
-		return (FALSE);
+		return (raise_error("Out of memory"));
 	i = -1;
 	while (++i < info->numbers)
 	{
@@ -128,6 +136,7 @@ t_bool	simulator_init(t_simulator *sim, int argc, char *argv[])
 		return (FALSE);
 	if (!init_sync(sim))
 		return (FALSE);
+	sim->printer.monitor = &sim->monitor;
 	printer_set(&sim->printer);
 	time_get();
 	return (TRUE);

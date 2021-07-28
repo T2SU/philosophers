@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:50:54 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 22:35:10 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:31:22 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,6 @@ void	printer_set(t_printer *printer)
 	*get_printer() = printer;
 }
 
-void	printer_print(const char *mes)
-{
-	t_printer	*printer;
-
-	printer = *get_printer();
-	sync_lock(&printer->sync);
-	printf("%s", mes);
-	sync_unlock(&printer->sync);
-}
-
 void	printer_changed_state(int philo_id, int state, const time_t time)
 {
 	t_printer	*printer;
@@ -48,7 +38,7 @@ void	printer_changed_state(int philo_id, int state, const time_t time)
 	else if (state == kThinking)
 		printf("%ld %d is thinking\n", time, philo_id);
 	else if (state == kDead)
-		printf("%ld %d is died\n", time, philo_id);
+		printf("%ld %d died\n", time, philo_id);
 	sync_unlock(&printer->sync);
 }
 

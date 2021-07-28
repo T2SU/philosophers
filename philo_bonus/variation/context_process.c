@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 19:05:29 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:36:44 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	wait_for_child_process(t_context *ctx, pid_t pid)
 
 	while (monitor_get_state(ctx->monitor) == kNormal)
 	{
-		usleep(500);
+		usleep(100);
 		process_status = waitpid(pid, &status, WNOHANG);
 		if (process_status == 0)
 			continue ;

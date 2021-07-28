@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:20:28 by smun              #+#    #+#             */
-/*   Updated: 2021/07/20 18:08:55 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:27:21 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 t_bool	sync_init(t_sync *sync)
 {
 	if (0 != pthread_mutex_init(&sync->mutex, NULL))
-		return (FALSE);
+		return (raise_error("Failed to init a mutex."));
 	return (TRUE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:50:54 by smun              #+#    #+#             */
-/*   Updated: 2021/07/09 22:35:21 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:34:19 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,18 @@ void	printer_set(t_printer *printer)
 	*get_printer() = printer;
 }
 
-void	printer_print(const char *mes)
+static t_bool	check_monitor_state()
 {
 	t_printer	*printer;
+	t_monitor	*monitor;
+	t_bool		ret;
 
 	printer = *get_printer();
-	sync_lock(&printer->sync);
-	printf("%s", mes);
-	sync_unlock(&printer->sync);
+	monitor = printer->monitor;
+	sync_lock(&monitor->sync);
+	ret = (monitor->state == kNormal);
+	sync_unlock(&monitor->sync);
+	return (ret);
 }
 
 void	printer_changed_state(int philo_id, int state, const time_t time)
@@ -41,14 +45,14 @@ void	printer_changed_state(int philo_id, int state, const time_t time)
 
 	printer = *get_printer();
 	sync_lock(&printer->sync);
-	if (state == kEating)
+	if (state == kEating && check_monitor_state())
 		printf("%ld %d is eating\n", time, philo_id);
-	else if (state == kSleeping)
+	else if (state == kSleeping && check_monitor_state())
 		printf("%ld %d is sleeping\n", time, philo_id);
-	else if (state == kThinking)
+	else if (state == kThinking && check_monitor_state())
 		printf("%ld %d is thinking\n", time, philo_id);
 	else if (state == kDead)
-		printf("%ld %d is died\n", time, philo_id);
+		printf("%ld %d died\n", time, philo_id);
 	sync_unlock(&printer->sync);
 }
 

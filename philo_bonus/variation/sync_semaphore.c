@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:20:28 by smun              #+#    #+#             */
-/*   Updated: 2021/07/20 18:20:33 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:27:01 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ t_bool	sync_init(t_sync *sync, const t_info *info, int sync_type)
 {
 	assign_sync_info(&sync[0], info, sync_type);
 	if (sync[0].init_num <= 0 || sync[0].name == NULL)
-		return (FALSE);
+		return (raise_error("Invalid semaphore info."));
 	sem_unlink(sync[0].name);
 	sync[0].sem = sem_open(sync[0].name, O_CREAT, 0644, sync[0].init_num);
 	if (sync[0].sem == SEM_FAILED)
-		return (FALSE);
+		return (raise_error("Cannot open a semaphore."));
 	return (TRUE);
 }
 
