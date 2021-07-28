@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:50:54 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 00:44:42 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:45:41 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,6 @@ static t_printer	**get_printer(void)
 void	printer_set(t_printer *printer)
 {
 	*get_printer() = printer;
-}
-
-t_bool	check_monitor_state()
-{
-	t_printer	*printer;
-	t_monitor	*monitor;
-	t_bool		ret;
-
-	printer = *get_printer();
-	monitor = printer->monitor;
-	sync_lock(&monitor->sync);
-	ret = (monitor->state == kNormal);
-	sync_unlock(&monitor->sync);
-	return (ret);
 }
 
 void	printer_changed_state(int philo_id, int state, const time_t time)
