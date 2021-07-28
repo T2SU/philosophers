@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:50:54 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 00:34:19 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:44:42 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	printer_set(t_printer *printer)
 	*get_printer() = printer;
 }
 
-static t_bool	check_monitor_state()
+t_bool	check_monitor_state()
 {
 	t_printer	*printer;
 	t_monitor	*monitor;
@@ -45,11 +45,11 @@ void	printer_changed_state(int philo_id, int state, const time_t time)
 
 	printer = *get_printer();
 	sync_lock(&printer->sync);
-	if (state == kEating && check_monitor_state())
+	if (state == kEating)
 		printf("%ld %d is eating\n", time, philo_id);
-	else if (state == kSleeping && check_monitor_state())
+	else if (state == kSleeping)
 		printf("%ld %d is sleeping\n", time, philo_id);
-	else if (state == kThinking && check_monitor_state())
+	else if (state == kThinking)
 		printf("%ld %d is thinking\n", time, philo_id);
 	else if (state == kDead)
 		printf("%ld %d died\n", time, philo_id);
