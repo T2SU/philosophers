@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
-#    Updated: 2021/07/29 00:58:00 by smun             ###   ########.fr        #
+#    Updated: 2021/07/29 03:48:32 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ FILES = \
 	common/simulator \
 	common/philo \
 	common/philo_life \
+	common/philo_fork \
 	common/printer \
 	common/context \
 	common/utils \

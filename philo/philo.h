@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 00:58:24 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 04:15:21 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_fork
 {
 	t_sync	sync;
 	t_bool	using;
+	int		counter;
 }			t_fork;
 
 /*
@@ -71,6 +72,7 @@ typedef struct s_philo
 	int		numbers_had_meal;
 	time_t	last_meal;
 	time_t	state_end_time;
+	int		taken;
 }			t_philo;
 
 typedef struct s_monitor
@@ -160,6 +162,14 @@ void	context_wait_to_end(t_simulator *sim);
 */
 
 void	philo_update_survive(t_philo *philo, t_context *ctx, const time_t time);
+
+/*
+** ============================================================================
+**   [[ philo_fork.c ]]
+** ============================================================================
+*/
+
+t_bool	philo_forks_try_take(t_philo *philo);
 
 /*
 ** ============================================================================

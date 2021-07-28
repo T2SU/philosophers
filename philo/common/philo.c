@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:18:14 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 03:27:20 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 04:13:07 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,9 @@ void	philo_change_state(t_philo *philo, int state, time_t time)
 
 static void	philo_try_to_eat(t_philo *philo, time_t time, int time_to_eat)
 {
-	if (philo->fork[0] == philo->fork[1])
+	if (!philo_forks_try_take(philo))
 		return ;
-	sync_lock(&philo->fork[0]->sync);
-	philo->fork[0]->using = TRUE;
 	printer_taken_fork(philo->unique_id, time);
-	sync_lock(&philo->fork[1]->sync);
-	philo->fork[1]->using = TRUE;
 	printer_taken_fork(philo->unique_id, time);
 	philo->state_end_time = time + time_to_eat;
 	philo->last_meal = time;
@@ -41,6 +37,8 @@ void	philo_drop_the_forks(t_philo *philo)
 {
 	if (philo->state == kEating)
 	{
+		sync_lock(&philo->fork[0]->sync);
+		sync_lock(&philo->fork[1]->sync);
 		philo->fork[0]->using = FALSE;
 		philo->fork[1]->using = FALSE;
 		sync_unlock(&philo->fork[0]->sync);
