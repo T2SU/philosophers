@@ -43,6 +43,8 @@ NAME = philo_bonus
 
 all : $(NAME)
 
+bonus : all
+
 clean :
 	rm -rf $(FILES_OBJ)
 	rm -rf $(NAME).dSYM
@@ -58,4 +60,4 @@ re : fclean all
 $(NAME) : $(FILES_OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
 
-.PHONY: all clean fclean re $(NAME)
+.PHONY: all clean fclean re bonus $(NAME)
