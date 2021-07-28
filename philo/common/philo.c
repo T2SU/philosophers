@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:18:14 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 01:00:11 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 01:55:17 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 /*
 ** Change philosopher's state.
-**  Give some delay if state is 'Thinking'.
 */
 
 void	philo_change_state(t_philo *philo, int state, time_t time)
 {
 	philo->state = state;
 	printer_changed_state(philo->unique_id, state, time);
-	if (state == kThinking)
-		philo->state_end_time = time + 1;
 }
 
 static void	philo_try_to_eat(t_philo *philo, time_t time, int time_to_eat)
@@ -55,6 +52,14 @@ static void	philo_finish_eating(t_philo *philo, time_t time, int time_to_sleep)
 	philo_change_state(philo, kSleeping, time);
 }
 
+/*
+** Update state.
+**  When a number of philosophers and forks is odd,
+**  Give some delay if state is 'Thinking'.
+**  This prevents the philosopher from eating again
+**  after he has finished eating.
+*/
+
 void	philo_update_state(t_philo *philo, t_context *ctx, const time_t time)
 {
 	if (philo->state_end_time > time)
@@ -64,5 +69,9 @@ void	philo_update_state(t_philo *philo, t_context *ctx, const time_t time)
 	else if (philo->state == kEating)
 		philo_finish_eating(philo, time, ctx->info->time_to_sleep);
 	else if (philo->state == kSleeping)
+	{
 		philo_change_state(philo, kThinking, time);
+		if ((ctx->info->numbers & 1) != 0)
+			philo->state_end_time = time + 1;
+	}
 }
