@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:18:14 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 01:55:17 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 02:36:43 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	philo_update_state(t_philo *philo, t_context *ctx, const time_t time)
 	else if (philo->state == kSleeping)
 	{
 		philo_change_state(philo, kThinking, time);
-		if ((ctx->info->numbers & 1) != 0)
+		if ((ctx->info->numbers & 1))
 			philo->state_end_time = time + 1;
 	}
 }
