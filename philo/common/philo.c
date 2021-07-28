@@ -6,11 +6,16 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:18:14 by smun              #+#    #+#             */
-/*   Updated: 2021/07/20 17:54:51 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 01:00:11 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*
+** Change philosopher's state.
+**  Give some delay if state is 'Thinking'.
+*/
 
 void	philo_change_state(t_philo *philo, int state, time_t time)
 {
@@ -22,9 +27,11 @@ void	philo_change_state(t_philo *philo, int state, time_t time)
 
 static void	philo_try_to_eat(t_philo *philo, time_t time, int time_to_eat)
 {
-	if (!philo_forks_try_take(philo))
+	if (philo->fork[0] == philo->fork[1])
 		return ;
+	sync_lock(&philo->fork[0]->sync);
 	printer_taken_fork(philo->unique_id, time);
+	sync_lock(&philo->fork[1]->sync);
 	printer_taken_fork(philo->unique_id, time);
 	philo->state_end_time = time + time_to_eat;
 	philo->last_meal = time;
@@ -35,7 +42,8 @@ void	philo_drop_the_forks(t_philo *philo)
 {
 	if (philo->state == kEating)
 	{
-		philo_forks_put_down(philo);
+		sync_unlock(&philo->fork[0]->sync);
+		sync_unlock(&philo->fork[1]->sync);
 	}
 }
 

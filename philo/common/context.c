@@ -6,13 +6,24 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/20 17:36:48 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 00:54:22 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
 #include <unistd.h>
+
+static void	*context_run(void *p_ctx)
+{
+	t_context	*ctx;
+
+	ctx = (t_context *)p_ctx;
+	context_update(ctx);
+	if (ctx->philo->state == kDead)
+		monitor_set_state(ctx->monitor, kInterrupted);
+	return (NULL);
+}
 
 /*
 ** First, Update philosopher's life.
