@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:18:14 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 00:39:12 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 03:34:46 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	philo_change_state(t_philo *philo, int state, time_t time)
 {
 	philo->state = state;
 	printer_changed_state(philo->unique_id, state, time);
-	if (state == kThinking)
-		philo->state_end_time = time + 1;
 }
 
 static void	philo_try_to_eat(t_philo *philo, time_t time, int time_to_eat)
@@ -59,5 +57,9 @@ void	philo_update_state(t_philo *philo, t_context *ctx, const time_t time)
 	else if (philo->state == kEating)
 		philo_finish_eating(philo, time, ctx->info->time_to_sleep);
 	else if (philo->state == kSleeping)
+	{
 		philo_change_state(philo, kThinking, time);
+		if ((ctx->info->numbers & 1))
+			philo->state_end_time = time + 1;
+	}
 }

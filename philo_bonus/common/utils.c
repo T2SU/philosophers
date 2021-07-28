@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 14:06:39 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 00:17:04 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 03:28:11 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int		raise_error(const char *msg)
+int	raise_error(const char *msg)
 {
 	int	len;
 
