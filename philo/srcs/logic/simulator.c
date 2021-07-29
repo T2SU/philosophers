@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 14:01:30 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 16:02:42 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 static t_bool	parse_details(t_info *info, int argc, char *argv[])
 {
 	if (argc < 5 || argc > 6)
-		return (raise_error("Invalid arguments number"));
+		return (raise_error("./philo <numbers> <time_to_die> <time_to_eat> "
+				"<time_to_sleep> (<number_to_eat>)"));
 	info->specified_number_to_eat = (argc == 6);
 	if (argc == 6 && !ft_atoi_strict(argv[5], &info->number_to_eat))
 		return (raise_error("Failed to parsing 'number_to_eat'"));
