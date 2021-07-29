@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 01:59:10 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:13:12 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:30:24 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@ static void	*full_monitor_run(void *p_sim)
 	int		i;
 
 	sim = (t_simulator *)p_sim;
-	i = 0;
-	while (i < sim->info.numbers)
-	{
+	i = -1;
+	while (++i < sim->info.numbers)
 		monitor_wait(&sim->full_monitor);
-		i++;
-	}
 	i = 0;
 	while (i < sim->info.numbers)
 		kill(sim->contexts[i++].pid, SIGTERM);
