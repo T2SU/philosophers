@@ -6,13 +6,13 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 18:36:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 18:38:44 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 01:06:08 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static t_bool	is_starved(t_philo *philo, t_context *ctx, const time_t time)
+t_bool	is_starved(t_philo *philo, t_context *ctx, const time_t time)
 {
 	return (philo->last_meal + ctx->info->time_to_die < time);
 }

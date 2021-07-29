@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 21:06:55 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 01:06:17 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ void	*context_run(void *p_ctx);
 ** ============================================================================
 */
 
+t_bool	is_starved(t_philo *philo, t_context *ctx, const time_t time);
 void	philo_update_survive(t_philo *philo, t_context *ctx, const time_t time);
 
 /*
