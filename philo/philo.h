@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 14:54:40 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 16:24:09 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_philo
 	t_fork	*fork[2];
 	int		state;
 	int		numbers_had_meal;
-	int		taken;
+	int		numbers_took_forks;
 	time_t	last_meal;
 	time_t	state_end_time;
 }			t_philo;

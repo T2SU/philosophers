@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 04:08:21 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 15:53:31 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 16:24:46 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@
 **
 **  << Step 2 >>
 **
-**  Using the 'picked' value of the fork and 'taken' value of the philosopher,
+**  Using the 'picked' value of the fork and
+**  'numbers_took_forks' value of the philosopher,
 **  compare the preemption between the opponent and his own philosopher.
 **
-**  If the calculated value of the opponent's 'taken' value is
-**  lower than its own philosopher's 'taken' value,
+**  If the calculated value of the opponent's 'numbers_took_forks' value is
+**  lower than its own philosopher's 'numbers_took_forks' value,
 **  It yields to the opponent philosopher to pick up the fork.
 **
 ** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
@@ -78,23 +79,23 @@
 /*
 ** Check if this philosohper is preemptive than the other one.
 **
-**   'Picked' - 'Taken' = Other philosopher's taken count.
+**   'Picked' - 'Taken' = Other philosopher's numbers_took_forks count.
 **
-**     other_philo.taken = fork.picked - philo.taken
-**     if (other_philo.taken >= philo.taken)
+**     other_philo.numbers_took_forks = fork.picked - philo.numbers_took_forks
+**     if (other_philo.numbers_took_forks >= philo.numbers_took_forks)
 **         is_preemptive = TRUE;
 **
-**      other_philo.taken >= philo.taken
-**  ->  fork.picked - philo.taken >= philo.taken
-**  ->  fork.picked >= (philo.taken * 2)
-**  ->  fork.picked >= (philo.taken << 1)
+**      other_philo.numbers_took_forks >= philo.numbers_took_forks
+**  ->  fork.picked - philo.numbers_took_forks >= philo.numbers_took_forks
+**  ->  fork.picked >= (philo.numbers_took_forks * 2)
+**  ->  fork.picked >= (philo.numbers_took_forks << 1)
 */
 
 static t_bool	is_preemptive_than_other(t_philo *philo)
 {
-	if (philo->fork[0]->picked < (philo->taken << 1))
+	if (philo->fork[0]->picked < (philo->numbers_took_forks << 1))
 		return (FALSE);
-	if (philo->fork[1]->picked < (philo->taken << 1))
+	if (philo->fork[1]->picked < (philo->numbers_took_forks << 1))
 		return (FALSE);
 	return (TRUE);
 }
@@ -122,7 +123,7 @@ static t_bool	try_take(t_philo *philo)
 		return (FALSE);
 	(philo->fork[0]->picked)++;
 	(philo->fork[1]->picked)++;
-	(philo->taken)++;
+	(philo->numbers_took_forks)++;
 	(philo->fork[0]->using) = TRUE;
 	(philo->fork[1]->using) = TRUE;
 	return (TRUE);

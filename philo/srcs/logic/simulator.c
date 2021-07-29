@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 16:02:42 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 16:21:24 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ static t_bool	init_logic_objects(t_simulator *sim)
 		philo->unique_id = i + 1;
 		philo->last_meal = time_get();
 		philo->state_end_time = time_get();
-		philo->taken = 0;
 		fork = &sim->forks[i];
 		memset(fork, 0, sizeof(t_fork));
 	}
