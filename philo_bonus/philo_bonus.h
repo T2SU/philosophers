@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 00:37:46 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 18:40:13 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ void	monitor_set_state(t_monitor *mon, int state);
 ** ============================================================================
 */
 
-void	context_update(t_context *ctx);
 void	context_begin(t_simulator *sim);
 void	context_wait_to_end(t_simulator *sim);
 

@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 18:35:57 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 18:41:24 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	wait_for_child_process(t_context *ctx, pid_t pid)
 
 	while (monitor_get_state(ctx->monitor) == kNormal)
 	{
-		usleep(100);
+		usleep(1000);
 		process_status = waitpid(pid, &status, WNOHANG);
 		if (process_status == 0)
 			continue ;
@@ -40,11 +40,32 @@ static void	wait_for_child_process(t_context *ctx, pid_t pid)
 		kill(pid, SIGKILL);
 }
 
+static t_bool	context_update(t_context *ctx)
+{
+	t_philo	*philo;
+	time_t	time;
+
+	philo = ctx->philo;
+	while (TRUE)
+	{
+		time = time_get();
+		philo_update_survive(philo, ctx, time);
+		if (philo->state == kDead)
+			return (FALSE);
+		philo_update_state(philo, ctx, time);
+		if (ctx->info->specified_number_to_eat)
+			if (philo->numbers_had_meal >= ctx->info->number_to_eat)
+				break ;
+		usleep(100);
+	}
+	return (TRUE);
+}
+
 void	*context_run(void *p_ctx)
 {
 	pid_t		pid;
 	t_context	*ctx;
-	int			mon_state;
+	t_bool		success;
 
 	ctx = (t_context *)p_ctx;
 	pid = fork();
@@ -55,14 +76,13 @@ void	*context_run(void *p_ctx)
 	}
 	if (pid < 0)
 		exit(EXIT_FAILURE);
-	context_update(ctx);
-	mon_state = ctx->monitor->state;
+	success = context_update(ctx);
 	sync_uninit(&ctx->monitor->sync, kClose);
 	sync_uninit(&ctx->printer->sync, kClose);
 	sync_uninit(ctx->table, kClose);
-	if (mon_state == kInterrupted)
-		exit(EXIT_FAILURE);
-	else
+	if (success)
 		exit(EXIT_SUCCESS);
+	else
+		exit(EXIT_FAILURE);
 	return (NULL);
 }

@@ -6,36 +6,13 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 18:34:06 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 18:39:53 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 #include <pthread.h>
 #include <unistd.h>
-
-void	context_update(t_context *ctx)
-{
-	t_philo	*philo;
-	time_t	time;
-
-	philo = ctx->philo;
-	while (TRUE)
-	{
-		time = time_get();
-		philo_update_survive(philo, ctx, time);
-		if (philo->state == kDead)
-		{
-			ctx->monitor->state = kInterrupted;
-			break ;
-		}
-		philo_update_state(philo, ctx, time);
-		if (ctx->info->specified_number_to_eat)
-			if (philo->numbers_had_meal >= ctx->info->number_to_eat)
-				break ;
-		usleep(100);
-	}
-}
 
 void	context_begin(t_simulator *sim)
 {
