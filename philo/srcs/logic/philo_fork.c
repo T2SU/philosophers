@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 04:08:21 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 21:58:00 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 00:26:03 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,13 @@ static t_bool	check_preemption_from_beginning(t_philo *philo)
 	return (odd == 0);
 }
 
+static void	fingerprint_on_fork(t_philo *philo, t_fork *fork)
+{
+	(fork->last_philo_id) = philo->unique_id;
+	(fork->picked)++;
+	(fork->using) = TRUE;
+}
+
 static t_bool	try_take(t_philo *philo)
 {
 	if (philo->fork[0]->using || philo->fork[1]->using)
@@ -125,13 +132,9 @@ static t_bool	try_take(t_philo *philo)
 			return (FALSE);
 	if (!is_preemptive_than_other(philo))
 		return (FALSE);
-	philo->fork[0]->last_philo_id = philo->unique_id;
-	philo->fork[1]->last_philo_id = philo->unique_id;
-	(philo->fork[0]->picked)++;
-	(philo->fork[1]->picked)++;
 	(philo->numbers_took_forks)++;
-	(philo->fork[0]->using) = TRUE;
-	(philo->fork[1]->using) = TRUE;
+	fingerprint_on_fork(philo, philo->fork[0]);
+	fingerprint_on_fork(philo, philo->fork[1]);
 	return (TRUE);
 }
 
