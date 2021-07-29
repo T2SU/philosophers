@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 17:14:47 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 22:33:06 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	context_update(t_context *ctx)
 			break ;
 		philo_update_state(philo, ctx, time);
 		update_if_reached_goal(ctx);
-		usleep(100);
+		usleep(250);
 	}
 }
 
