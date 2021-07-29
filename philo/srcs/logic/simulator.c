@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 23:21:23 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 01:53:11 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static t_bool	init_sync(t_simulator *sim)
 	const t_info	*info = &sim->info;
 	int				i;
 
-	if (!sync_init(&sim->monitor.sync))
+	if (!sync_init(&sim->died_monitor.sync))
 		return (raise_error("Failed to init 'Monitor' sync"));
 	if (!sync_init(&sim->printer.sync))
 		return (raise_error("Failed to init 'Printer' sync"));
@@ -137,7 +137,7 @@ t_bool	simulator_init(t_simulator *sim, int argc, char *argv[])
 		return (FALSE);
 	if (!init_sync(sim))
 		return (FALSE);
-	sim->printer.monitor = &sim->monitor;
+	sim->printer.monitor = &sim->died_monitor;
 	printer_set(&sim->printer);
 	time_get();
 	return (TRUE);
@@ -153,7 +153,7 @@ int	simulator_uninit(t_simulator *sim, int exit_code)
 		while (++i < sim->info.numbers)
 			sim->philos[i].state = kDead;
 	}
-	sync_uninit(&sim->monitor.sync);
+	sync_uninit(&sim->died_monitor.sync);
 	sync_uninit(&sim->printer.sync);
 	if (sim->forks != NULL)
 	{

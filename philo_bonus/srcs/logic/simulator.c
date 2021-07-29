@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 23:21:43 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 01:40:42 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ static t_bool	init_sync(t_simulator *sim)
 {
 	const t_info	*info = &sim->info;
 
-	if (!sync_init(&sim->monitor.sync, info, kMonitor))
-		return (raise_error("Failed to init 'Monitor' sync"));
+	if (!sync_init(&sim->died_monitor.sync, info, kDiedMonitor))
+		return (raise_error("Failed to init 'DiedMonitor' sync"));
+	if (!sync_init(&sim->full_monitor.sync, info, kFullMonitor))
+		return (raise_error("Failed to init 'FullMonitor' sync"));
 	if (!sync_init(&sim->printer.sync, info, kPrinter))
 		return (raise_error("Failed to init 'Printer' sync"));
 	if (!sync_init(&sim->table, info, kPhilosopher))
@@ -106,7 +108,8 @@ int	simulator_uninit(t_simulator *sim, int exit_code)
 		while (++i < sim->info.numbers)
 			sim->philos[i].state = kDead;
 	}
-	sync_uninit(&sim->monitor.sync, kClose | kDestroy);
+	sync_uninit(&sim->died_monitor.sync, kClose | kDestroy);
+	sync_uninit(&sim->full_monitor.sync, kClose | kDestroy);
 	sync_uninit(&sim->printer.sync, kClose | kDestroy);
 	sync_uninit(&sim->table, kClose | kDestroy);
 	free(sim->philos);

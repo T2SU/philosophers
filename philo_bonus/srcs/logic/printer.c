@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:50:54 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 00:31:22 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:24:41 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,26 @@ void	printer_set(t_printer *printer)
 	*get_printer() = printer;
 }
 
-void	printer_changed_state(int philo_id, int state, const time_t time)
+void	printer_changed_state(t_philo *philo, int state, const time_t time)
 {
 	t_printer	*printer;
 
 	printer = *get_printer();
 	sync_lock(&printer->sync);
-	if (state == kEating)
-		printf("%ld %d is eating\n", time, philo_id);
-	else if (state == kSleeping)
-		printf("%ld %d is sleeping\n", time, philo_id);
+	if (state == kSleeping && DEBUG)
+		printf("%ld %d is sleeping (had_meal:%d)\n", time, philo->unique_id,
+			philo->numbers_had_meal);
+	else if (state == kSleeping && !DEBUG)
+		printf("%ld %d is sleeping\n", time, philo->unique_id);
 	else if (state == kThinking)
-		printf("%ld %d is thinking\n", time, philo_id);
-	else if (state == kDead)
-		printf("%ld %d died\n", time, philo_id);
+		printf("%ld %d is thinking\n", time, philo->unique_id);
+	else if (state == kEating)
+		printf("%ld %d is eating\n", time, philo->unique_id);
+	else if (state == kDead && DEBUG)
+		printf("%ld %d died (had_meal:%d)\n", time, philo->unique_id,
+			philo->numbers_had_meal);
+	else if (state == kDead && !DEBUG)
+		printf("%ld %d died\n", time, philo->unique_id);
 	sync_unlock(&printer->sync);
 }
 

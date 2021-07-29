@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 18:39:53 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:02:03 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	context_begin(t_simulator *sim)
 	{
 		ctx = &sim->contexts[i];
 		ctx->info = &sim->info;
-		ctx->monitor = &sim->monitor;
+		ctx->died_monitor = &sim->died_monitor;
+		ctx->full_monitor = &sim->full_monitor;
 		ctx->printer = &sim->printer;
 		ctx->philo = &sim->philos[i];
 		ctx->table = &sim->table;
@@ -43,4 +44,9 @@ void	context_wait_to_end(t_simulator *sim)
 		pthread_join(sim->contexts[i].thread, NULL);
 		i++;
 	}
+	monitor_notify(&sim->died_monitor);
+	pthread_join(sim->died_monitor_thread, NULL);
+	if (!sim->info.specified_number_to_eat)
+		return ;
+	pthread_join(sim->full_monitor_thread, NULL);
 }

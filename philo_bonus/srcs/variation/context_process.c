@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 18:43:46 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:04:48 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,19 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-static int	is_abnormal_exit(int wstatus)
+static void		notify_full_if_possible(t_context *ctx)
 {
-	return (wstatus != 0);
-}
+	t_philo	*philo;
 
-static void	wait_for_child_process(t_context *ctx, pid_t pid)
-{
-	int		status;
-	int		process_status;
-
-	while (monitor_get_state(ctx->monitor) == kNormal)
-	{
-		usleep(1000);
-		process_status = waitpid(pid, &status, WNOHANG);
-		if (process_status == 0)
-			continue ;
-		if (is_abnormal_exit(status))
-			monitor_set_state(ctx->monitor, kInterrupted);
-		break ;
-	}
-	if (monitor_get_state(ctx->monitor) == kInterrupted)
-		kill(pid, SIGKILL);
+	philo = ctx->philo;
+	if (!ctx->info->specified_number_to_eat)
+		return;
+	if (ctx->notified_full)
+		return ;
+	if (philo->numbers_had_meal < ctx->info->number_to_eat)
+		return ;
+	ctx->notified_full = TRUE;
+	monitor_notify(ctx->full_monitor);
 }
 
 static t_bool	context_update(t_context *ctx)
@@ -53,9 +44,7 @@ static t_bool	context_update(t_context *ctx)
 		if (philo->state == kDead)
 			return (FALSE);
 		philo_update_state(philo, ctx, time);
-		if (ctx->info->specified_number_to_eat)
-			if (philo->numbers_had_meal >= ctx->info->number_to_eat)
-				break ;
+		notify_full_if_possible(ctx);
 		usleep(250);
 	}
 	return (TRUE);
@@ -65,24 +54,21 @@ void	*context_run(void *p_ctx)
 {
 	pid_t		pid;
 	t_context	*ctx;
-	t_bool		success;
+	int			status;
 
 	ctx = (t_context *)p_ctx;
 	pid = fork();
 	if (pid > 0)
 	{
-		wait_for_child_process(ctx, pid);
+		waitpid(ctx->pid = pid, &status, 0);
 		return (NULL);
 	}
 	if (pid < 0)
 		exit(EXIT_FAILURE);
-	success = context_update(ctx);
-	sync_uninit(&ctx->monitor->sync, kClose);
+	if (!context_update(ctx))
+		monitor_notify(ctx->died_monitor);
+	sync_uninit(&ctx->died_monitor->sync, kClose);
 	sync_uninit(&ctx->printer->sync, kClose);
 	sync_uninit(ctx->table, kClose);
-	if (success)
-		exit(EXIT_SUCCESS);
-	else
-		exit(EXIT_FAILURE);
 	return (NULL);
 }

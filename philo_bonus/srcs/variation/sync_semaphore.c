@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:20:28 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 00:27:01 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 01:54:07 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,15 @@
 
 static void	assign_sync_info(t_sync *sync, const t_info *info, int sync_type)
 {
-	if (sync_type == kMonitor)
+	if (sync_type == kDiedMonitor)
 	{
-		sync->name = SEM_NAME_MONITOR;
-		sync->init_num = 1;
+		sync->name = SEM_NAME_DIED_MONITOR;
+		sync->init_num = 0;
+	}
+	else if (sync_type == kFullMonitor)
+	{
+		sync->name = SEM_NAME_FULL_MONITOR;
+		sync->init_num = 0;
 	}
 	else if (sync_type == kPrinter)
 	{
@@ -54,7 +59,7 @@ static void	assign_sync_info(t_sync *sync, const t_info *info, int sync_type)
 t_bool	sync_init(t_sync *sync, const t_info *info, int sync_type)
 {
 	assign_sync_info(&sync[0], info, sync_type);
-	if (sync[0].init_num <= 0 || sync[0].name == NULL)
+	if (sync[0].init_num < 0 || sync[0].name == NULL)
 		return (raise_error("Invalid semaphore info."));
 	sem_unlink(sync[0].name);
 	sync[0].sem = sem_open(sync[0].name, O_CREAT, 0644, sync[0].init_num);

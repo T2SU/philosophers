@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 22:33:06 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 01:53:11 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static void	update_if_reached_goal(t_context *ctx)
 	if (philo->numbers_had_meal < ctx->info->number_to_eat)
 		return ;
 	philo->reached_meal_num = TRUE;
-	if (!monitor_increment_and_check_reached(ctx->monitor, ctx->info->numbers))
+	if (!monitor_increment_and_check_reached(ctx->died_monitor, ctx->info->numbers))
 		return ;
-	monitor_set_state(ctx->monitor, kInterrupted);
+	monitor_set_state(ctx->died_monitor, kInterrupted);
 }
 
 /*
@@ -64,7 +64,7 @@ static void	*context_run(void *p_ctx)
 	ctx = (t_context *)p_ctx;
 	context_update(ctx);
 	if (ctx->philo->state == kDead)
-		monitor_set_state(ctx->monitor, kInterrupted);
+		monitor_set_state(ctx->died_monitor, kInterrupted);
 	return (NULL);
 }
 
@@ -85,7 +85,7 @@ void	context_begin(t_simulator *sim)
 	{
 		ctx = &sim->contexts[i];
 		ctx->info = &sim->info;
-		ctx->monitor = &sim->monitor;
+		ctx->died_monitor = &sim->died_monitor;
 		ctx->printer = &sim->printer;
 		ctx->philo = &sim->philos[i];
 		pthread_create(&ctx->thread, NULL, &context_run, ctx);

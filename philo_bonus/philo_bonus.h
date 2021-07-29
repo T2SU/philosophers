@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 01:06:17 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:19:25 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # define TRUE 1
 # define FALSE 0
 # define SEM_NAME_PHILO "sem_philo"
-# define SEM_NAME_MONITOR "sem_monitor"
+# define SEM_NAME_DIED_MONITOR "sem_died_monitor"
+# define SEM_NAME_FULL_MONITOR "sem_full_monitor"
 # define SEM_NAME_PRINT "sem_print"
 # ifndef DEBUG
 #  define DEBUG 0
@@ -48,7 +49,8 @@ enum	e_uninit_option
 
 enum	e_sync_type
 {
-	kMonitor,
+	kDiedMonitor,
+	kFullMonitor,
 	kPrinter,
 	kPhilosopher
 };
@@ -103,22 +105,28 @@ typedef struct s_printer
 
 typedef struct s_context
 {
-	t_philo			*philo;
-	t_sync			*table;
-	t_info			*info;
-	t_printer		*printer;
-	t_monitor		*monitor;
-	pthread_t		thread;
-}					t_context;
+	t_philo		*philo;
+	t_sync		*table;
+	t_info		*info;
+	t_printer	*printer;
+	t_monitor	*died_monitor;
+	t_monitor	*full_monitor;
+	t_bool		notified_full;
+	pthread_t	thread;
+	pid_t		pid;
+}				t_context;
 
 typedef struct s_simulator
 {
 	t_info		info;
 	t_printer	printer;
-	t_monitor	monitor;
+	t_monitor	died_monitor;
+	t_monitor	full_monitor;
 	t_philo		*philos;
 	t_sync		table;
 	t_context	*contexts;
+	pthread_t	died_monitor_thread;
+	pthread_t	full_monitor_thread;
 }				t_simulator;
 
 /*
@@ -148,7 +156,7 @@ void	sync_unlock(t_sync *sync);
 */
 
 void	printer_set(t_printer *printer);
-void	printer_changed_state(int philo_id, int state, const time_t time);
+void	printer_changed_state(t_philo *philo, int state, const time_t time);
 void	printer_taken_fork(int philo_id, const time_t time);
 
 /*
@@ -157,8 +165,8 @@ void	printer_taken_fork(int philo_id, const time_t time);
 ** ============================================================================
 */
 
-int		monitor_get_state(t_monitor *mon);
-void	monitor_set_state(t_monitor *mon, int state);
+void	monitor_wait(t_monitor *mon);
+void	monitor_notify(t_monitor *mon);
 
 /*
 ** ============================================================================
@@ -168,6 +176,22 @@ void	monitor_set_state(t_monitor *mon, int state);
 
 void	context_begin(t_simulator *sim);
 void	context_wait_to_end(t_simulator *sim);
+
+/*
+** ============================================================================
+**   [[ context_died_monitor.c ]]
+** ============================================================================
+*/
+
+void	context_start_died_monitor(t_simulator *sim);
+
+/*
+** ============================================================================
+**   [[ context_full_monitor.c ]]
+** ============================================================================
+*/
+
+void	context_start_full_monitor(t_simulator *sim);
 
 /*
 ** ============================================================================
