@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 04:08:21 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 15:17:37 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 15:53:31 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static t_bool	is_preemptive_than_other(t_philo *philo)
 ** It makes each philosopher to pick the forks sequentially without starvation.
 */
 
-static t_bool	check_preemptive_from_beginning(t_philo *philo)
+static t_bool	check_preemption_from_beginning(t_philo *philo)
 {
 	const int	odd = philo->unique_id & 1;
 
@@ -116,7 +116,7 @@ static t_bool	try_take(t_philo *philo)
 	if (philo->fork[0]->using || philo->fork[1]->using)
 		return (FALSE);
 	if (philo->fork[0]->picked == 0 && philo->fork[1]->picked == 0)
-		if (!check_preemptive_from_beginning(philo))
+		if (!check_preemption_from_beginning(philo))
 			return (FALSE);
 	if (!is_preemptive_than_other(philo))
 		return (FALSE);
