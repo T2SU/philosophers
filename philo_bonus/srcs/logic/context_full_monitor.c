@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 01:59:10 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:30:24 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:34:11 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	*full_monitor_run(void *p_sim)
 {
 	t_simulator	*sim;
-	int		i;
+	int			i;
 
 	sim = (t_simulator *)p_sim;
 	i = -1;

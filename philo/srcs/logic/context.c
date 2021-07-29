@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 01:53:11 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:33:48 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	update_if_reached_goal(t_context *ctx)
 	if (philo->numbers_had_meal < ctx->info->number_to_eat)
 		return ;
 	philo->reached_meal_num = TRUE;
-	if (!monitor_increment_and_check_reached(ctx->died_monitor, ctx->info->numbers))
+	if (!monitor_inc_and_check_reached(ctx->died_monitor, ctx->info->numbers))
 		return ;
 	monitor_set_state(ctx->died_monitor, kInterrupted);
 }

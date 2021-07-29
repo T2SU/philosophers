@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 01:58:25 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:30:03 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:34:14 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	*died_monitor_run(void *p_sim)
 {
 	t_simulator	*sim;
-	int		i;
+	int			i;
 
 	sim = (t_simulator *)p_sim;
 	i = 0;

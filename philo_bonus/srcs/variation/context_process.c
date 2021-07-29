@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:04:48 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:34:03 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-static void		notify_full_if_possible(t_context *ctx)
+static void	notify_full_if_possible(t_context *ctx)
 {
 	t_philo	*philo;
 
 	philo = ctx->philo;
 	if (!ctx->info->specified_number_to_eat)
-		return;
+		return ;
 	if (ctx->notified_full)
 		return ;
 	if (philo->numbers_had_meal < ctx->info->number_to_eat)
