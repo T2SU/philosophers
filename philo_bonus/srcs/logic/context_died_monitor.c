@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 01:58:25 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:34:14 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:35:52 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	*died_monitor_run(void *p_sim)
 	while (i < sim->info.numbers)
 		kill(sim->contexts[i++].pid, SIGTERM);
 	if (!sim->info.specified_number_to_eat)
-		return ;
+		return (NULL);
 	i = -1;
 	while (++i < sim->info.numbers)
 		monitor_notify(&sim->full_monitor);
