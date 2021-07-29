@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 16:24:09 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 17:09:04 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,14 @@ typedef struct s_philo
 	int		numbers_took_forks;
 	time_t	last_meal;
 	time_t	state_end_time;
+	t_bool	reached_meal_num;
 }			t_philo;
 
 typedef struct s_monitor
 {
 	t_sync	sync;
 	int		state;
+	int		reached_philos;
 }			t_monitor;
 
 typedef struct s_printer
@@ -144,6 +146,7 @@ void	printer_taken_fork(int philo_id, const time_t time);
 
 int		monitor_get_state(t_monitor *mon);
 void	monitor_set_state(t_monitor *mon, int state);
+t_bool	monitor_increment_and_check_reached(t_monitor *mon, int goal);
 
 /*
 ** ============================================================================

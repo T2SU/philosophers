@@ -6,13 +6,28 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 15:50:53 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 17:14:47 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
 #include <unistd.h>
+
+static void	update_if_reached_goal(t_context *ctx)
+{
+	t_philo		*philo;
+
+	philo = ctx->philo;
+	if (!ctx->info->specified_number_to_eat || philo->reached_meal_num)
+		return ;
+	if (philo->numbers_had_meal < ctx->info->number_to_eat)
+		return ;
+	philo->reached_meal_num = TRUE;
+	if (!monitor_increment_and_check_reached(ctx->monitor, ctx->info->numbers))
+		return ;
+	monitor_set_state(ctx->monitor, kInterrupted);
+}
 
 /*
 ** First, Update philosopher's life.
@@ -22,8 +37,6 @@
 **  Process logics by his each state.
 **
 ** Finally, Check philosopher's meal times.
-**  When it reached number to eat from program's argument,
-**  finish philosopher's simulation thread.
 */
 
 void	context_update(t_context *ctx)
@@ -39,9 +52,7 @@ void	context_update(t_context *ctx)
 		if (philo->state == kDead)
 			break ;
 		philo_update_state(philo, ctx, time);
-		if (ctx->info->specified_number_to_eat)
-			if (philo->numbers_had_meal >= ctx->info->number_to_eat)
-				break ;
+		update_if_reached_goal(ctx);
 		usleep(100);
 	}
 }
