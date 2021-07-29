@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 00:36:44 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 18:17:51 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,18 @@ static void	wait_for_child_process(t_context *ctx, pid_t pid)
 		if (process_status == 0)
 			continue ;
 		if (is_abnormal_exit(status))
-		{
 			monitor_set_state(ctx->monitor, kInterrupted);
-			kill(pid, SIGKILL);
-		}
 		break ;
 	}
+	if (monitor_get_state(ctx->monitor) == kInterrupted)
+		kill(pid, SIGKILL);
 }
 
 void	*context_run(void *p_ctx)
 {
 	pid_t		pid;
 	t_context	*ctx;
-	int			exit_status;
+	int			mon_state;
 
 	ctx = (t_context *)p_ctx;
 	pid = fork();
@@ -57,10 +56,13 @@ void	*context_run(void *p_ctx)
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	context_update(ctx);
-	exit_status = monitor_get_state(ctx->monitor) == kInterrupted;
+	mon_state = monitor_get_state(ctx->monitor);
 	sync_uninit(&ctx->monitor->sync, kClose);
 	sync_uninit(&ctx->printer->sync, kClose);
 	sync_uninit(ctx->table, kClose);
-	exit(exit_status);
+	if (mon_state == kInterrupted)
+		exit(EXIT_FAILURE);
+	else
+		exit(EXIT_SUCCESS);
 	return (NULL);
 }

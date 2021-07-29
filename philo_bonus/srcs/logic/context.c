@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 15:52:21 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 18:12:24 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	context_update(t_context *ctx)
 		time = time_get();
 		philo_update_survive(philo, ctx, time);
 		if (philo->state == kDead)
+		{
+			monitor_set_state(ctx->monitor, kInterrupted);
 			break ;
+		}
 		philo_update_state(philo, ctx, time);
 		if (ctx->info->specified_number_to_eat)
 			if (philo->numbers_had_meal >= ctx->info->number_to_eat)
