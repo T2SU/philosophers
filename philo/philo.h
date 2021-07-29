@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 04:15:21 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 14:54:40 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_fork
 {
 	t_sync	sync;
 	t_bool	using;
-	int		counter;
+	int		picked;
 }			t_fork;
 
 /*
@@ -70,9 +70,9 @@ typedef struct s_philo
 	t_fork	*fork[2];
 	int		state;
 	int		numbers_had_meal;
+	int		taken;
 	time_t	last_meal;
 	time_t	state_end_time;
-	int		taken;
 }			t_philo;
 
 typedef struct s_monitor

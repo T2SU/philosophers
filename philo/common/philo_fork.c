@@ -6,23 +6,123 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 04:08:21 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 04:16:49 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 15:17:37 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
+** << Step 1 >>
+**
+**  First, an even number of philosophers take their forks.
+**   ('check_preemptive_from_beginning' function)
+**
+** +-------+---+---+---+---+---+
+** |       | 1 | 2 | 3 | 4 | 5 |
+** +-------+---+---+---+---+---+
+** | Philo | 0 | 0 | 0 | 0 | 0 |
+** +-------+---+---+---+---+---+
+** |  Fork | 0 | 0 | 0 | 0 | 0 |
+** +-------+---+---+---+---+---+
+** |   Run | X | O | X | O | X |
+** +-------+---+---+---+---+---+
+**
+**  << Step 2 >>
+**
+**  Using the 'picked' value of the fork and 'taken' value of the philosopher,
+**  compare the preemption between the opponent and his own philosopher.
+**
+**  If the calculated value of the opponent's 'taken' value is
+**  lower than its own philosopher's 'taken' value,
+**  It yields to the opponent philosopher to pick up the fork.
+**
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** |       | 1 | 2 | 3 | 4 | 5 |   |       | 1 | 2 | 3 | 4 | 5 |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** | Philo | 0 | 1 | 0 | 1 | 0 |   | Philo | 0 | 1 | 0 | 1 | 0 |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** |  Fork | 1 | 1 | 1 | 1 | 0 |   |  Fork | 1 | 1 | 1 | 1 | 0 |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** |   Run | X | S | O | S | O |   |   Run | O | S | O | S | X |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+**
+**  << Step 3 >>
+**
+**  Afterwards,
+**  the fork is provided by checking whether it is still possible to preempt.
+**
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** |       | 1 | 2 | 3 | 4 | 5 |   |       | 1 | 2 | 3 | 4 | 5 |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** | Philo | 0 | 1 | 1 | 1 | 1 |   | Philo | 1 | 1 | 1 | 1 | 0 |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** |  Fork | 1 | 2 | 2 | 2 | 1 |   |  Fork | 2 | 2 | 2 | 1 | 1 |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** |   Run | O | X | S | O | S |   |   Run | S | O | S | X | O |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+**
+**  << Step 4 >>
+**
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** |       | 1 | 2 | 3 | 4 | 5 |   |       | 1 | 2 | 3 | 4 | 5 |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** | Philo | 1 | 1 | 1 | 2 | 1 |   | Philo | 1 | 2 | 1 | 1 | 1 |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** |  Fork | 2 | 2 | 3 | 3 | 2 |   |  Fork | 3 | 3 | 2 | 2 | 2 |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+** |   Run | S | O | X | S | O |   |   Run | O | S | X | O | S |
+** +-------+---+---+---+---+---+   +-------+---+---+---+---+---+
+*/
+
+/*
+** Check if this philosohper is preemptive than the other one.
+**
+**   'Picked' - 'Taken' = Other philosopher's taken count.
+**
+**     other_philo.taken = fork.picked - philo.taken
+**     if (other_philo.taken >= philo.taken)
+**         is_preemptive = TRUE;
+**
+**      other_philo.taken >= philo.taken
+**  ->  fork.picked - philo.taken >= philo.taken
+**  ->  fork.picked >= (philo.taken * 2)
+**  ->  fork.picked >= (philo.taken << 1)
+*/
+
+static t_bool	is_preemptive_than_other(t_philo *philo)
+{
+	if (philo->fork[0]->picked < (philo->taken << 1))
+		return (FALSE);
+	if (philo->fork[1]->picked < (philo->taken << 1))
+		return (FALSE);
+	return (TRUE);
+}
+
+/*
+** An even number of philosophers are guaranteed to pick the fork first.
+** It makes each philosopher to pick the forks sequentially without starvation.
+*/
+
+static t_bool	check_preemptive_from_beginning(t_philo *philo)
+{
+	const int	odd = philo->unique_id & 1;
+
+	return (odd == 0);
+}
+
 static t_bool	try_take(t_philo *philo)
 {
 	if (philo->fork[0]->using || philo->fork[1]->using)
 		return (FALSE);
-	if (philo->taken > philo->fork[0]->counter / 2)
+	if (philo->fork[0]->picked == 0 && philo->fork[1]->picked == 0)
+		if (!check_preemptive_from_beginning(philo))
+			return (FALSE);
+	if (!is_preemptive_than_other(philo))
 		return (FALSE);
-	if (philo->taken > philo->fork[1]->counter / 2)
-		return (FALSE);
+	(philo->fork[0]->picked)++;
+	(philo->fork[1]->picked)++;
 	(philo->taken)++;
-	(philo->fork[0]->counter)++;
-	(philo->fork[1]->counter)++;
 	(philo->fork[0]->using) = TRUE;
 	(philo->fork[1]->using) = TRUE;
 	return (TRUE);

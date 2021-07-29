@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:26:31 by smun              #+#    #+#             */
-/*   Updated: 2021/07/18 19:20:24 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 04:36:23 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	context_update(t_context *ctx)
 		if (ctx->info->specified_number_to_eat)
 			if (philo->numbers_had_meal >= ctx->info->number_to_eat)
 				break ;
-		usleep(250);
+		usleep(1000);
 	}
 }
 
