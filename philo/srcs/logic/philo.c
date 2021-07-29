@@ -55,10 +55,6 @@ static void	philo_finish_eating(t_philo *philo, time_t time, int time_to_sleep)
 
 /*
 ** Update state.
-**  When a number of philosophers and forks is odd,
-**  Give some delay if state is 'Thinking'.
-**  This prevents the philosopher from eating again
-**  after he has finished eating.
 */
 
 void	philo_update_state(t_philo *philo, t_context *ctx, const time_t time)
