@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 18:17:51 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 18:35:57 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	*context_run(void *p_ctx)
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	context_update(ctx);
-	mon_state = monitor_get_state(ctx->monitor);
+	mon_state = ctx->monitor->state;
 	sync_uninit(&ctx->monitor->sync, kClose);
 	sync_uninit(&ctx->printer->sync, kClose);
 	sync_uninit(ctx->table, kClose);
