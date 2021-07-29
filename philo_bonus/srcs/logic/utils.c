@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 14:06:39 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 16:45:51 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 22:53:14 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,13 @@ time_t	time_get(void)
 	seconds = t.tv_sec - start_s;
 	if (t.tv_usec > start_us)
 		microseconds = t.tv_usec - start_us;
-	else
+	else if (seconds > 0)
 	{
 		seconds--;
 		microseconds = 1000000 + t.tv_usec - start_us;
 	}
+	else
+		microseconds = 0;
 	return (seconds * 1000 + microseconds / 1000);
 }
 
