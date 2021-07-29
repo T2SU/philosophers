@@ -6,12 +6,21 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 01:59:10 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:52:57 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:55:01 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 #include <signal.h>
+
+static void	wait_for_all_child_is_full(t_simulator *sim)
+{
+	int	i;
+
+	i = -1;
+	while (++i < sim->info.numbers)
+		monitor_wait(&sim->full_monitor);
+}
 
 static void	kill_all_childs(t_simulator *sim)
 {
@@ -25,12 +34,9 @@ static void	kill_all_childs(t_simulator *sim)
 static void	*full_monitor_run(void *p_sim)
 {
 	t_simulator	*sim;
-	int			i;
 
 	sim = (t_simulator *)p_sim;
-	i = -1;
-	while (++i < sim->info.numbers)
-		monitor_wait(&sim->full_monitor);
+	wait_for_all_child_is_full(sim);
 	kill_all_childs(sim);
 	return (NULL);
 }
