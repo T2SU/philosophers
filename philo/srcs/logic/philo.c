@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:18:14 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 15:07:21 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 19:24:22 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 
 void	philo_change_state(t_philo *philo, int state, time_t time)
 {
-	philo->state = state;
-	printer_changed_state(philo->unique_id, state, time);
+	printer_changed_state(philo->unique_id, philo->state = state, time);
 }
 
 static void	philo_try_to_eat(t_philo *philo, time_t time, int time_to_eat)
