@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:18:14 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 22:59:18 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 23:03:22 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ static void	philo_try_to_eat(t_philo *philo, int time_to_eat)
 
 	if (philo->forks_num <= 1)
 		return ;
+	if (philo->last_meal == 0 && (philo->unique_id & 1))
+		if (time_get() < time_to_eat)
+			return ;
 	sync_lock(philo->table);
 	sync_lock(philo->table);
 	time = time_get();
