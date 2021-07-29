@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:18:14 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 19:24:41 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 22:59:18 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@ void	philo_change_state(t_philo *philo, int state, time_t time)
 	printer_changed_state(philo->unique_id, philo->state = state, time);
 }
 
-static void	philo_try_to_eat(t_philo *philo, time_t time, int time_to_eat)
+static void	philo_try_to_eat(t_philo *philo, int time_to_eat)
 {
+	time_t	time;
+
 	if (philo->forks_num <= 1)
 		return ;
 	sync_lock(philo->table);
-	printer_taken_fork(philo->unique_id, time);
 	sync_lock(philo->table);
+	time = time_get();
+	printer_taken_fork(philo->unique_id, time);
 	printer_taken_fork(philo->unique_id, time);
 	philo->state_end_time = time + time_to_eat;
 	philo->last_meal = time;
@@ -52,7 +55,7 @@ void	philo_update_state(t_philo *philo, t_context *ctx, const time_t time)
 	if (philo->state_end_time > time)
 		return ;
 	if (philo->state == kThinking)
-		philo_try_to_eat(philo, time, ctx->info->time_to_eat);
+		philo_try_to_eat(philo, ctx->info->time_to_eat);
 	else if (philo->state == kEating)
 		philo_finish_eating(philo, time, ctx->info->time_to_sleep);
 	else if (philo->state == kSleeping)
