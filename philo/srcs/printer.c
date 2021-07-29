@@ -6,11 +6,11 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:50:54 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:24:41 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/30 02:58:24 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 #include <stdio.h>
 
 static t_printer	**get_printer(void)
@@ -32,28 +32,43 @@ void	printer_changed_state(t_philo *philo, int state, const time_t time)
 	printer = *get_printer();
 	sync_lock(&printer->sync);
 	if (state == kSleeping && DEBUG)
-		printf("%ld %d is sleeping (had_meal:%d)\n", time, philo->unique_id,
+		printf("%6ld %3d is sleeping (had_meal:%d)\n", time, philo->unique_id,
 			philo->numbers_had_meal);
 	else if (state == kSleeping && !DEBUG)
-		printf("%ld %d is sleeping\n", time, philo->unique_id);
+		printf("%6ld %3d is sleeping\n", time, philo->unique_id);
 	else if (state == kThinking)
-		printf("%ld %d is thinking\n", time, philo->unique_id);
-	else if (state == kEating)
-		printf("%ld %d is eating\n", time, philo->unique_id);
+		printf("%6ld %3d is thinking\n", time, philo->unique_id);
+	else if (state == kEating && DEBUG)
+		printf("%6ld %3d is eating (took:%d)\n", time, philo->unique_id,
+			philo->numbers_took_forks);
+	else if (state == kEating && !DEBUG)
+		printf("%6ld %3d is eating\n", time, philo->unique_id);
 	else if (state == kDead && DEBUG)
-		printf("%ld %d died (had_meal:%d)\n", time, philo->unique_id,
+		printf("%6ld %3d died (had_meal:%d)\n", time, philo->unique_id,
 			philo->numbers_had_meal);
 	else if (state == kDead && !DEBUG)
-		printf("%ld %d died\n", time, philo->unique_id);
+		printf("%6ld %3d died\n", time, philo->unique_id);
 	sync_unlock(&printer->sync);
 }
 
-void	printer_taken_fork(int philo_id, const time_t time)
+void	printer_taken_fork(t_philo *philo, int fork_id, const time_t time)
 {
 	t_printer	*printer;
+	int			picked;
 
 	printer = *get_printer();
 	sync_lock(&printer->sync);
-	printf("%ld %d has taken a fork\n", time, philo_id);
+	if (DEBUG)
+	{
+		sync_lock(&philo->fork[fork_id]->sync);
+		picked = philo->fork[fork_id]->picked;
+		printf("%6ld %3d has taken a fork %d (picked:%d)\n", time,
+			philo->unique_id, philo->fork[fork_id]->unique_id, picked);
+		sync_unlock(&philo->fork[fork_id]->sync);
+	}
+	else
+	{
+		printf("%6ld %3d has taken a fork\n", time, philo->unique_id);
+	}
 	sync_unlock(&printer->sync);
 }

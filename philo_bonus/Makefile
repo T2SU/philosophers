@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
-#    Updated: 2021/07/30 02:00:45 by smun             ###   ########.fr        #
+#    Updated: 2021/07/30 03:00:14 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,18 +26,18 @@ endif
 
 INC = -I.
 FILES = \
-	srcs/logic/main \
-	srcs/logic/simulator \
-	srcs/logic/philo \
-	srcs/logic/philo_life \
-	srcs/logic/printer \
-	srcs/logic/context \
-	srcs/logic/context_died_monitor \
-	srcs/logic/context_full_monitor \
-	srcs/logic/utils \
-	srcs/logic/monitor \
-	srcs/variation/sync_semaphore \
-	srcs/variation/context_process
+	srcs/main \
+	srcs/simulator \
+	srcs/philo \
+	srcs/philo_life \
+	srcs/printer \
+	srcs/context \
+	srcs/context_process \
+	srcs/context_died_monitor \
+	srcs/context_full_monitor \
+	srcs/utils \
+	srcs/monitor \
+	srcs/sync_semaphore
 FILES_SRC = $(addsuffix .c, $(FILES))
 FILES_OBJ = $(FILES_SRC:.c=.o)
 
