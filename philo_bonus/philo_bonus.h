@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 18:40:13 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 21:06:55 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # define SEM_NAME_PHILO "sem_philo"
 # define SEM_NAME_MONITOR "sem_monitor"
 # define SEM_NAME_PRINT "sem_print"
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 
 typedef int	t_bool;
 

@@ -6,7 +6,7 @@
 #    By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/06 15:55:21 by smun              #+#    #+#              #
-#    Updated: 2021/07/29 15:54:40 by smun             ###   ########.fr        #
+#    Updated: 2021/07/29 21:05:55 by smun             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 # Debug compilation
 ifeq ($(DEBUG),1)
-	CFLAGS += -g
+	CFLAGS += -g -DDEBUG=1
 endif
 
 # Compilation option for Linux

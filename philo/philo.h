@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 17:09:04 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 21:56:30 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <pthread.h>
 # define TRUE 1
 # define FALSE 0
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 
 typedef int	t_bool;
 
@@ -45,9 +48,11 @@ typedef struct s_sync
 
 typedef struct s_fork
 {
+	int		unique_id;
 	t_sync	sync;
 	t_bool	using;
 	int		picked;
+	int		last_philo_id;
 }			t_fork;
 
 /*
@@ -135,8 +140,8 @@ void	sync_unlock(t_sync *sync);
 */
 
 void	printer_set(t_printer *printer);
-void	printer_changed_state(int philo_id, int state, const time_t time);
-void	printer_taken_fork(int philo_id, const time_t time);
+void	printer_changed_state(t_philo *philo, int state, const time_t time);
+void	printer_taken_fork(t_philo *philo, int fork_id, const time_t time);
 
 /*
 ** ============================================================================

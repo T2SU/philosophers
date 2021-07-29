@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 16:36:21 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 21:23:52 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ static t_bool	init_logic_objects(t_simulator *sim)
 	const t_info	*info = &sim->info;
 	int				i;
 	t_philo			*philo;
-	t_fork			*fork;
 
 	sim->philos = malloc(sizeof(t_philo) * info->numbers);
 	sim->forks = malloc(sizeof(t_fork) * info->numbers);
@@ -122,8 +121,8 @@ static t_bool	init_logic_objects(t_simulator *sim)
 		philo->unique_id = i + 1;
 		philo->last_meal = time_get();
 		philo->state_end_time = time_get();
-		fork = &sim->forks[i];
-		memset(fork, 0, sizeof(t_fork));
+		memset(&sim->forks[i], 0, sizeof(t_fork));
+		sim->forks[i].unique_id = i + 1;
 	}
 	return (TRUE);
 }

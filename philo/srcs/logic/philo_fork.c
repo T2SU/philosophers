@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 04:08:21 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 16:34:12 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 21:58:00 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ static t_bool	is_preemptive_than_other(t_philo *philo)
 		return (FALSE);
 	if (philo->fork[1]->picked < (philo->numbers_took_forks << 1))
 		return (FALSE);
+	if (philo->fork[0]->last_philo_id == philo->unique_id)
+		return (FALSE);
+	if (philo->fork[1]->last_philo_id == philo->unique_id)
+		return (FALSE);
 	return (TRUE);
 }
 
@@ -121,6 +125,8 @@ static t_bool	try_take(t_philo *philo)
 			return (FALSE);
 	if (!is_preemptive_than_other(philo))
 		return (FALSE);
+	philo->fork[0]->last_philo_id = philo->unique_id;
+	philo->fork[1]->last_philo_id = philo->unique_id;
 	(philo->fork[0]->picked)++;
 	(philo->fork[1]->picked)++;
 	(philo->numbers_took_forks)++;
