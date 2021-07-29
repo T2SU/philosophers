@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 04:08:21 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 16:24:46 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 16:34:12 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@
 /*
 ** Check if this philosohper is preemptive than the other one.
 **
-**   'Picked' - 'Taken' = Other philosopher's numbers_took_forks count.
+**   'Picked' - 'Took' = Other philosopher's numbers_took_forks count.
 **
 **     other_philo.numbers_took_forks = fork.picked - philo.numbers_took_forks
 **     if (other_philo.numbers_took_forks >= philo.numbers_took_forks)
