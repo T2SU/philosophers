@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 17:50:34 by smun              #+#    #+#             */
-/*   Updated: 2021/07/29 16:21:31 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/29 16:36:28 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static t_bool	parse_details(t_info *info, int argc, char *argv[])
 		return (raise_error("Failed to parsing 'time_to_die'"));
 	if (!ft_atoi_strict(argv[1], &info->numbers))
 		return (raise_error("Failed to parsing 'numbers'"));
-	if (info->number_to_eat < 0)
+	if (info->specified_number_to_eat && info->number_to_eat <= 0)
 		return (raise_error("'number_to_eat' must be positive number."));
-	if (info->time_to_sleep < 0)
+	if (info->time_to_sleep <= 0)
 		return (raise_error("'time_to_sleep' must be positive number."));
-	if (info->time_to_eat < 0)
+	if (info->time_to_eat <= 0)
 		return (raise_error("'time_to_eat' must be positive number."));
-	if (info->time_to_die < 0)
+	if (info->time_to_die <= 0)
 		return (raise_error("'time_to_die' must be positive number."));
 	if (info->numbers <= 0)
 		return (raise_error("Numbers must be positive number."));
