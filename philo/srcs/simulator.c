@@ -137,7 +137,6 @@ t_bool	simulator_init(t_simulator *sim, int argc, char *argv[])
 		return (FALSE);
 	if (!init_sync(sim))
 		return (FALSE);
-	sim->printer.monitor = &sim->died_monitor;
 	printer_set(&sim->printer);
 	time_get();
 	return (TRUE);

@@ -91,7 +91,6 @@ typedef struct s_monitor
 typedef struct s_printer
 {
 	t_sync		sync;
-	t_monitor	*monitor;
 }				t_printer;
 
 typedef struct s_context
