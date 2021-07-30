@@ -68,6 +68,7 @@ void	*context_run(void *p_ctx)
 	if (!context_update(ctx))
 		monitor_notify(ctx->died_monitor);
 	sync_uninit(&ctx->died_monitor->sync, kClose);
+	sync_uninit(&ctx->full_monitor->sync, kClose);
 	sync_uninit(&ctx->printer->sync, kClose);
 	sync_uninit(ctx->table, kClose);
 	return (NULL);
