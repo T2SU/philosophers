@@ -31,7 +31,8 @@ static void	philo_try_to_eat(t_philo *philo, t_context *ctx, int time_to_eat)
 	while (++i < 2)
 	{
 		sync_lock(philo->table);
-		philo_update_survive(philo, ctx, time = time_get());
+		time = time_get();
+		philo_update_survive(philo, ctx, time);
 		if (philo->state == kDead)
 			return ;
 		printer_taken_fork(philo->unique_id, time);
