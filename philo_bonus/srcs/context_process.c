@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 20:29:05 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:34:03 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/31 14:59:39 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static t_bool	context_update(t_context *ctx)
 		if (philo->state == kDead)
 			return (FALSE);
 		philo_update_state(philo, ctx, time);
+		if (philo->state == kDead)
+			return (FALSE);
 		notify_full_if_possible(ctx);
 		usleep(250);
 	}

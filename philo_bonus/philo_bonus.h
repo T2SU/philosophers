@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:47:36 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:19:25 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/31 14:40:18 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_philo
 	t_sync	*table;
 	int		state;
 	int		numbers_had_meal;
+	int		picking_forks;
 	time_t	last_meal;
 	time_t	state_end_time;
 }			t_philo;
@@ -155,6 +156,7 @@ void	sync_unlock(t_sync *sync);
 ** ============================================================================
 */
 
+void	printer_print(const char *format, const time_t time, int val);
 void	printer_set(t_printer *printer);
 void	printer_changed_state(t_philo *philo, int state, const time_t time);
 void	printer_taken_fork(int philo_id, const time_t time);

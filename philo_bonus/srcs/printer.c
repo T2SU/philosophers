@@ -6,7 +6,7 @@
 /*   By: smun <smun@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 18:50:54 by smun              #+#    #+#             */
-/*   Updated: 2021/07/30 02:58:01 by smun             ###   ########.fr       */
+/*   Updated: 2021/07/31 14:40:08 by smun             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ static t_printer	**get_printer(void)
 	static t_printer	*printer;
 
 	return (&printer);
+}
+
+void	printer_print(const char *format, const time_t time, int val)
+{
+	t_printer	*printer;
+
+	printer = *get_printer();
+	sync_lock(&printer->sync);
+	printf(format, time, val);
+	sync_unlock(&printer->sync);
 }
 
 void	printer_set(t_printer *printer)
